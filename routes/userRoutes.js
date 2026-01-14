@@ -1,18 +1,18 @@
 import express from 'express';
 import {
     renderUserPage,
-    renderBuyPage,
+    renderMarketplace,
     renderSellPage,
-    renderBuyingHistory,
-    renderSellingHistory
+    renderUserOrders,
+    renderUserProfile
 } from '../controllers/userController.js';
 
 const router = express.Router();
 
 router.get('/', renderUserPage);
-router.get('/buy', renderBuyPage);
+router.get('/marketplace', renderMarketplace);
 router.get('/sell', renderSellPage);
-router.get('/buyingHistory', renderBuyingHistory);
-router.get('/sellingHistory', renderSellingHistory);
+router.get('/orders', renderUserOrders);
+router.get('/profile', renderUserProfile);
 
 export default router;

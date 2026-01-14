@@ -6,6 +6,51 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Seller Page</h1>
+    <h2>Sell a Product</h2>
+
+    <form action="/user/sell" method="POST">
+        <label>Title</label>
+        <input type="text" name="title" required>
+
+        <label>Description</label>
+        <textarea name="description"></textarea>
+
+        <label>Category</label>
+        <select name="category_id" required>
+            <% categories.forEach(cat => { %>
+                <option value="<%= cat.id %>"><%= cat.name %></option>
+            <% }) %>
+        </select>
+
+        <label>Waste Type</label>
+        <select name="waste_type_id" required>
+            <% wasteTypes.forEach(w => { %>
+                <option value="<%= w.id %>"><%= w.name %></option>
+            <% }) %>
+        </select>
+
+        <label>Price (₹)</label>
+        <input type="number" step="0.01" name="price" required>
+
+        <label>Quantity</label>
+        <input type="number" name="quantity_available" required>
+
+        <button type="submit">Submit for Review</button>
+    </form>
+
+    <hr>
+
+    <h3>Your Listings</h3>
+
+    <ul>
+        <% products.forEach(p => { %>
+            <li>
+                <strong><%= p.title %></strong>
+                — ₹<%= p.price %>
+                — <%= p.status %>
+            </li>
+        <% }) %>
+    </ul>
+    
 </body>
 </html>

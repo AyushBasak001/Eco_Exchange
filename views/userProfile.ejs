@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h2>My Profile</h2>
+
+    <form action="/user/profile" method="POST">
+        <label>Username</label>
+        <input type="text" value="<%= user.username %>" disabled>
+
+        <label>Email</label>
+        <input type="email" value="<%= user.email %>" disabled>
+
+        <label>Phone</label>
+        <input type="text" name="phone" value="<%= address?.phone || '' %>">
+
+        <label>Address Line 1</label>
+        <input type="text" name="line1" value="<%= address?.line1 || '' %>">
+
+        <label>City</label>
+        <input type="text" name="city" value="<%= address?.city || '' %>">
+
+        <label>State</label>
+        <input type="text" name="state" value="<%= address?.state || '' %>">
+
+        <label>Pincode</label>
+        <input type="text" name="pincode" value="<%= address?.pincode || '' %>">
+
+        <button type="submit">Update Profile</button>
+    </form>
+</body>
+</html>

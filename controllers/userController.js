@@ -11,9 +11,9 @@ export const renderUserPage = async (req, res) => {
   }
 }
 
-export const renderBuyPage = async (req, res) => {
+export const renderMarketplace = async (req, res) => {
   try {
-    return res.status(200).render("userBuy.ejs");
+    return res.status(200).render("userMarketplace.ejs");
 
   } catch (err) {
     console.error("GET /user/buy error:", err.message);
@@ -33,9 +33,9 @@ export const renderSellPage = async (req, res) => {
   }
 }
 
-export const renderBuyingHistory = async (req, res) => {
+export const renderUserOrders = async (req, res) => {
   try {
-    return res.status(200).render("userBuyingHistory.ejs");
+    return res.status(200).render("userOrders.ejs");
 
   } catch (err) {
     console.error("GET /user/buyingHistory error:", err.message);
@@ -44,9 +44,9 @@ export const renderBuyingHistory = async (req, res) => {
   }
 }
 
-export const renderSellingHistory = async (req, res) => {
+export const renderUserProfile = async (req, res) => {
   try {
-    return res.status(200).render("userSellingHistory.ejs");
+    return res.status(200).render("userProfile.ejs");
 
   } catch (err) {
     console.error("GET /user/sellingHistory error:", err.message);

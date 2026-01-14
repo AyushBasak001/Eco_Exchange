@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h2>Marketplace</h2>
+    <p>Browse eco-friendly recycled products.</p>
+
+    <div class="product-grid">
+        <% if (products.length === 0) { %>
+            <p>No products available right now.</p>
+        <% } %>
+
+        <% products.forEach(product => { %>
+            <div class="product-card">
+                <!-- <img src="<%= product.image_url || '/images/default-product.png' %>" alt="product"> -->
+                <h4><%= product.title %></h4>
+                <p>₹<%= product.price %></p>
+                <a href="/product/<%= product.id %>" class="btn">View</a>
+            </div>
+        <% }) %>
+    </div>
+</body>
+</html>

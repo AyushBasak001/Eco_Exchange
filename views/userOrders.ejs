@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h2>My Orders</h2>
+
+    <div class="tabs">
+        <a href="/user/orders?type=buy" class="<%= type === 'buy' ? 'active' : '' %>">Purchases</a>
+        <a href="/user/orders?type=sell" class="<%= type === 'sell' ? 'active' : '' %>">Sales</a>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Date</th>
+                <th>Total (₹)</th>
+                <th>Status</th>
+                <th>View</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (orders.length === 0) { %>
+                <tr><td colspan="5">No orders found</td></tr>
+            <% } %>
+
+            <% orders.forEach(o => { %>
+                <tr>
+                    <td>#<%= o.id %></td>
+                    <td><%= o.created_at.toDateString() %></td>
+                    <td>₹<%= o.total_amount %></td>
+                    <td><%= o.order_status %></td>
+                    <td>
+                        <a href="/order/<%= o.id %>">Details</a>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+</html>
