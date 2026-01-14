@@ -3,52 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Eco-Exchange</title>
 </head>
 <body>
 
-    <h1>Login Page</h1>
+    <h1>Authentication</h1>
 
-    <!-- Login Form -->
-    <form action="/login" method="POST">
+    <!-- LOGIN FORM -->
+    <form method="POST" action="/login">
 
-        <!-- Username or Email -->
+        <h3>Login</h3>
+
         <div>
-            <label for="identifier">Username or Email</label><br>
-            <input 
-                type="text" 
-                id="identifier" 
-                name="identifier" 
-                placeholder="Enter username or email"
-                required
-            >
+            <label>Username</label><br>
+            <input type="text" name="username" required>
         </div>
 
         <br>
 
-        <!-- Password -->
         <div>
-            <label for="password">Password</label><br>
-            <input 
-                type="password" 
-                id="password" 
-                name="password" 
-                placeholder="Enter password"
-                required
-            >
+            <label>Password</label><br>
+            <input type="password" name="password" required>
         </div>
 
         <br>
 
-        <!-- Submit -->
+        <div>
+            <label>Role</label><br>
+            <select name="role" required>
+                <option value="">Select role</option>
+                <option value="USER">User</option>
+                <option value="MODERATOR">Moderator</option>
+                <option value="ADMIN">Admin</option>
+            </select>
+        </div>
+
+        <br>
+
         <button type="submit">Login</button>
-
     </form>
 
-    <!-- Error Message (Optional) -->
-    <% if (typeof error !== 'undefined') { %>
-        <p style="color: red;"><%= error %></p>
-    <% } %>
+    <!-- SIGNUP FORM -->
+    <form method="POST" action="/login/signup">
+
+        <h3>Signup</h3>
+
+        <div>
+            <label>Username</label><br>
+            <input type="text" name="username" required>
+        </div>
+
+        <br>
+
+        <div>
+            <label>Password</label><br>
+            <input type="password" name="password" required>
+        </div>
+
+        <br>
+
+        <div>
+            <label>Role</label><br>
+            <select name="role" required>
+                <option value="">Select role</option>
+                <option value="USER">User</option>
+                <option value="MODERATOR">Moderator</option>
+                <option value="ADMIN">Admin</option>
+            </select>
+        </div>
+
+        <br>
+
+        <button type="submit">Signup</button>
+    </form>
 
 </body>
 </html>
