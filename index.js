@@ -1,7 +1,8 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import loginRoutes from './routes/loginRoutes.js';
+import cookieParser from "cookie-parser";
+import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -11,9 +12,10 @@ const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Routes
-app.use('/login' , loginRoutes);
+app.use('/auth' , authRoutes);
 app.use('/user' , userRoutes);
 
 app.get("/", (req, res) => {
