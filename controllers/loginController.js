@@ -13,7 +13,7 @@ export const renderLoginPage = async (req, res) => {
 
 export const loginUser = async (req, res) => {
   try {
-    return res.status(200).render("user.ejs");
+    return res.status(200).render("user.ejs", { username: req.body.username });
 
   } catch (err) {
     console.error("GET /login error:", err.message);
@@ -24,10 +24,10 @@ export const loginUser = async (req, res) => {
 
 export const signupUser = async (req, res) => {
   try {
-    return res.status(200).render("user.ejs");
+    return res.status(200).render("user.ejs", { username: req.body.username });
 
   } catch (err) {
-    console.error("GET /login error:", err.message);
+    console.error("GET /login/signup error:", err.message);
 
     return res.status(500).send("Internal server error");
   }

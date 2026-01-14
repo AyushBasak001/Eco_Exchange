@@ -1,0 +1,110 @@
+/* ---------- AUTH PAGE ---------- */
+
+.auth-page {
+    min-height: 100vh;
+    background-color: #e8f5e9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.auth-container {
+    width: 100%;
+    max-width: 900px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.auth-title {
+    font-size: 2.2rem;
+    color: #2e7d32;
+}
+
+.auth-subtitle {
+    color: #546e7a;
+    margin-bottom: 2rem;
+}
+
+.auth-forms {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+/* ---------- AUTH CARDS ---------- */
+
+.auth-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.auth-card h3 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #388e3c;
+}
+
+/* ---------- FORM ---------- */
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    color: #455a64;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+/* ---------- BUTTONS ---------- */
+
+.btn-primary {
+    width: 100%;
+    padding: 0.6rem;
+    background-color: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background-color: #1b5e20;
+}
+
+.btn-secondary {
+    width: 100%;
+    padding: 0.6rem;
+    background-color: #66bb6a;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #43a047;
+}
+
+/* ---------- EXIT LINK ---------- */
+
+.exit-link {
+    display: inline-block;
+    margin-top: 2rem;
+    text-decoration: none;
+    color: #2e7d32;
+    font-weight: bold;
+}

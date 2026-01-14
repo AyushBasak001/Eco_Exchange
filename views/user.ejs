@@ -3,14 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Eco-Exchange | Dashboard</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/userPage.css">
 </head>
-<body>
-    <h1>Hello User!!</h1>
-    <h2>What would you like to do today?</h2>
-    <ul>
-        <li><a href="/buyer">Buy Products</a></li>
-        <li><a href="/seller">Sell Products</a></li>
-    </ul>
+
+<body class="dashboard-page">
+
+    <div class="dashboard-container">
+
+        <h1 class="dashboard-title">
+            Hello <span class="user-name"><%= username %></span> 🌱
+        </h1>
+
+        <p class="dashboard-subtitle">
+            What would you like to do today?
+        </p>
+
+        <div class="dashboard-actions">
+            <a href="/user/buy" class="dashboard-card">
+                <h3>Buy Products</h3>
+                <p>Explore eco-friendly products made from recycled materials.</p>
+            </a>
+
+            <a href="/user/sell" class="dashboard-card">
+                <h3>Sell Products</h3>
+                <p>List your recycled or upcycled products for buyers.</p>
+            </a>
+
+            <a href="/user/buyingHistory" class="dashboard-card">
+                <h3>View My Purchases</h3>
+                <p>View products you have bought and track past orders.</p>
+            </a>
+
+            <a href="/user/sellingHistory" class="dashboard-card">
+                <h3>View My Sales</h3>
+                <p>Manage and review products you have sold on Eco-Exchange.</p>
+            </a>
+
+        </div>
+
+        <a href="/" class="logout-link">Log Out</a>
+
+    </div>
+
 </body>
 </html>
