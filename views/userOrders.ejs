@@ -3,11 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>My Orders | Eco-Exchange</title>
 </head>
+
 <body>
 
-    <h2>My Orders</h2>
+<h1>My Orders</h1>
+
+<% orders.forEach(order => { %>
+    <div class="order-card">
+        <h3>Order #<%= order.id %></h3>
+        <p>Status: <%= order.order_status %></p>
+        <p>Total: ₹ <%= order.total_amount %></p>
+        <p>Date: <%= order.created_at %></p>
+
+        <ul>
+            <% order.items.forEach(item => { %>
+                <li>
+                    <%= item.product_title %> × <%= item.quantity %>
+                    (₹ <%= item.price_at_purchase %>)
+                </li>
+            <% }) %>
+        </ul>
+    </div>
+<% }) %>
 
 </body>
 </html>

@@ -3,11 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Marketplace | Eco-Exchange</title>
 </head>
+
 <body>
 
-    <h2>Marketplace</h2>
-    
+<h1>Eco-Exchange Marketplace</h1>
+
+<div class="product-grid">
+    <% products.forEach(product => { %>
+        <div class="product-card">
+
+            <h3><%= product.title %></h3>
+            <p>Seller: <%= product.seller_name %></p>
+            <p>₹ <%= product.price %></p>
+
+            <% if (product.quantity_available > 0) { %>
+                <form action="/orders/create" method="POST">
+                    <input type="hidden" name="product_id" value="<%= product.id %>">
+
+                    <input type="number" name="quantity" min="1"
+                           max="<%= product.quantity_available %>" required>
+
+                    <button type="submit">Buy</button>
+                </form>
+            <% } else { %>
+                <p class="sold-out">Sold Out</p>
+            <% } %>
+        </div>
+    <% }) %>
+</div>
+
 </body>
 </html>

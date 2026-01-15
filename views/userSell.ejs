@@ -3,11 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Sell Product | Eco-Exchange</title>
 </head>
+
 <body>
-    
-    <h2>Sell a Product</h2>
+
+<h1>Sell a Product</h1>
+
+<form action="/products/create" method="POST" enctype="multipart/form-data">
+
+    <label>Title</label>
+    <input type="text" name="title" required>
+
+    <label>Description</label>
+    <textarea name="description"></textarea>
+
+    <label>Category</label>
+    <select name="category_id" required>
+        <% categories.forEach(c => { %>
+            <option value="<%= c.id %>"><%= c.name %></option>
+        <% }) %>
+    </select>
+
+    <label>Waste Type</label>
+    <select name="waste_type_id" required>
+        <% wasteTypes.forEach(w => { %>
+            <option value="<%= w.id %>"><%= w.name %></option>
+        <% }) %>
+    </select>
+
+    <label>Price (₹)</label>
+    <input type="number" name="price" step="0.01" min="0" required>
+
+    <label>Quantity</label>
+    <input type="number" name="quantity_available" min="1" required>
+
+    <button type="submit">Submit for Approval</button>
+</form>
 
 </body>
 </html>

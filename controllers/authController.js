@@ -55,20 +55,46 @@ export const login = async (req, res) => {
 }
 
 export async function signup(req, res) {
+
     const { username, email, password, role } = req.body;
     
     const is_verified = role === "USER";
-
     const hash = await bcrypt.hash(password, 12);
 
-    await db.query(
-        `INSERT INTO users (username, email, password_hash, role, is_verified)
-         VALUES ($1, $2, $3, $4, $5)`,
-        [username, email, hash, role, is_verified]
-    );
+    // Using a transaction for atomicity
+    const client = await db.connect();
+    try {
+        await client.query('BEGIN');
 
-    res.redirect("/auth/");
+        // 1. Insert User and return the new user_id
+        const userRes = await client.query(
+            `INSERT INTO users (username, email, password_hash, role, is_verified)
+             VALUES ($1, $2, $3, $4, $5)
+             RETURNING id`,
+            [username, email, hash, role, is_verified]
+        );
+
+        const newUserId = userRes.rows[0].id;
+
+        // 2. Insert Address using the returned user_id
+        await client.query(
+            `INSERT INTO address (user_id)
+             VALUES ($1)`,
+            [newUserId]
+        );
+
+        await client.query('COMMIT');
+        
+        res.redirect("/auth/");
+    } catch (error) {
+        await client.query('ROLLBACK');
+        console.error("Signup Error:", error);
+        res.status(500).send("Registration failed.");
+    } finally {
+        client.release();
+    }
 }
+
 
 export function logout(req, res) {
     res.clearCookie("auth_token");

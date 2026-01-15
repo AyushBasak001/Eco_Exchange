@@ -3,9 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Profile | Eco-Exchange</title>
 </head>
+
 <body>
-    <h1>This is your Profile.</h1>
+
+<h1>My Profile</h1>
+
+<section>
+    <h2>User Info</h2>
+    <p>Username: <%= user.username %></p>
+    <p>Email: <%= user.email %></p>
+    <p>Role: <%= user.role %></p>
+</section>
+
+<!-- ADDRESS FORM -->
+<form method="POST" action="/user/profile/address">
+    <h2>Addresses</h2>
+
+    <div>
+        <label>Line-1</label>
+        <input type="text" name="line1" value="<%= address.line1 %>" >
+    </div>
+
+    <div>
+        <label>Line-2</label>
+        <input type="text" name="line2" value="<%= address.line2 %>">
+    </div>
+
+    <div>
+        <label>City</label>
+        <input type="text" name="city" value="<%= address.city %>">
+    </div>
+
+    <div>
+        <label>State</label>
+        <input type="text" name="state" value="<%= address.state %>">
+    </div>
+
+    <div>
+        <label>Pincode</label>
+        <input type="text" name="pincode" value="<%= address.pincode %>">
+    </div>
+
+    <div>
+        <label>Phone</label>
+        <input type="text" name="phone" value="<%= address.phone %>">
+    </div>
+
+    <button type="submit">Save</button>
+</form>
+
+<section>
+    <h2>My Products</h2>
+    <% products.forEach(p => { %>
+        <div class="product-row">
+            <p><%= p.title %></p>
+            <p>Status: <%= p.status %></p>
+            <p>Qty: <%= p.quantity_available %></p>
+        </div>
+    <% }) %>
+</section>
+
+<a href="/user">← Back to User Dashboard</a>
+
 </body>
 </html>

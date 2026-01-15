@@ -12,15 +12,13 @@ CREATE TABLE users (
 
 
 CREATE TABLE address (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER NOT NULL,
-    line1 TEXT NOT NULL,
+    user_id INTEGER PRIMARY KEY, 
+    line1 TEXT,
     line2 TEXT,
-    city VARCHAR(50) NOT NULL,
-    state VARCHAR(50) NOT NULL,
-    pincode VARCHAR(10) NOT NULL,
+    city VARCHAR(50),
+    state VARCHAR(50),
+    pincode VARCHAR(10),
     phone VARCHAR(15),
-    is_default BOOLEAN DEFAULT FALSE,
 
     CONSTRAINT fk_address_user
         FOREIGN KEY (user_id)
