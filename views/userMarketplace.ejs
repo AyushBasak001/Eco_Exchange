@@ -16,10 +16,11 @@
 
             <h3><%= product.title %></h3>
             <p>Seller: <%= product.seller_name %></p>
-            <p>₹ <%= product.price %></p>
+            <p>Price: ₹ <%= product.price %></p>
+            <p>Available Quantity :<%= product.quantity_available %></p>
 
             <% if (product.quantity_available > 0) { %>
-                <form action="/orders/create" method="POST">
+                <form action="/user/orders/create" method="POST">
                     <input type="hidden" name="product_id" value="<%= product.id %>">
 
                     <input type="number" name="quantity" min="1"
@@ -33,6 +34,9 @@
         </div>
     <% }) %>
 </div>
+
+
+<a href="/user">← Back to User Dashboard</a>
 
 </body>
 </html>

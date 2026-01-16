@@ -8,9 +8,92 @@
 
 <body>
 
-<h1>Sell a Product</h1>
+<section>
+    <h2>My Products</h2>
 
-<form action="/products/create" method="POST" enctype="multipart/form-data">
+    <!-- ================= ACTIVE PRODUCTS ================= -->
+    <h3>Active Products</h3>
+
+    <% const activeProducts = products.filter(p =>
+        p.status !== 'REMOVED' && p.quantity_available > 0
+    ); %>
+
+    <% if (activeProducts.length === 0) { %>
+        <p>No active products.</p>
+    <% } %>
+
+    <% activeProducts.forEach(p => { %>
+        <div class="product-row">
+            <p><strong><%= p.title %></strong></p>
+            <p>Status: <%= p.status %></p>
+            <p>Qty: <%= p.quantity_available %></p>
+
+            <!-- Restock -->
+            <form action="/user/sell/<%= p.id %>/restock" method="POST">
+                <input type="number" name="quantity" min="1" required>
+                <button type="submit">Add Stock</button>
+            </form>
+
+            <!-- Remove -->
+            <form action="/user/sell/<%= p.id %>/remove" method="POST">
+                <button type="submit">Remove</button>
+            </form>
+        </div>
+    <% }) %>
+
+
+    <!-- ================= OUT OF STOCK ================= -->
+    <h3>Out of Stock</h3>
+
+    <% const outOfStockProducts = products.filter(p =>
+        p.status !== 'REMOVED' && p.quantity_available === 0
+    ); %>
+
+    <% if (outOfStockProducts.length === 0) { %>
+        <p>No out-of-stock products.</p>
+    <% } %>
+
+    <% outOfStockProducts.forEach(p => { %>
+        <div class="product-row">
+            <p><strong><%= p.title %></strong></p>
+            <p>Status: <%= p.status %></p>
+            <p>Qty: 0</p>
+
+            <!-- Restock -->
+            <form action="/user/sell/<%= p.id %>/restock" method="POST">
+                <input type="number" name="quantity" min="1" required>
+                <button type="submit">Restock</button>
+            </form>
+
+            <!-- Remove -->
+            <form action="/user/sell/<%= p.id %>/remove" method="POST">
+                <button type="submit">Remove</button>
+            </form>
+        </div>
+    <% }) %>
+
+
+    <!-- ================= REMOVED PRODUCTS ================= -->
+    <h3>Removed Products</h3>
+
+    <% const removedProducts = products.filter(p => p.status === 'REMOVED'); %>
+
+    <% if (removedProducts.length === 0) { %>
+        <p>No removed products.</p>
+    <% } %>
+
+    <% removedProducts.forEach(p => { %>
+        <div class="product-row">
+            <p><strong><%= p.title %></strong></p>
+            <p>Status: REMOVED</p>
+        </div>
+    <% }) %>
+
+</section>
+
+<h2>Sell a Product</h2>
+
+<form action="/user/sell/new" method="POST">
 
     <label>Title</label>
     <input type="text" name="title" required>
@@ -20,6 +103,7 @@
 
     <label>Category</label>
     <select name="category_id" required>
+        <option value="">Select Category</option>
         <% categories.forEach(c => { %>
             <option value="<%= c.id %>"><%= c.name %></option>
         <% }) %>
@@ -27,6 +111,7 @@
 
     <label>Waste Type</label>
     <select name="waste_type_id" required>
+        <option value="">Select Waste Type</option>
         <% wasteTypes.forEach(w => { %>
             <option value="<%= w.id %>"><%= w.name %></option>
         <% }) %>
@@ -38,8 +123,10 @@
     <label>Quantity</label>
     <input type="number" name="quantity_available" min="1" required>
 
-    <button type="submit">Submit for Approval</button>
+    <button type="submit">Submit</button>
 </form>
+
+<a href="/user">← Back to User Dashboard</a>
 
 </body>
 </html>
