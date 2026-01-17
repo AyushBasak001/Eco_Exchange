@@ -3,89 +3,141 @@
 <head>
     <meta charset="UTF-8">
     <title>My Orders | Eco-Exchange</title>
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/userOrders.css">
 </head>
 
 <body>
 
-<h1>My Orders</h1>
-
-<!-- ================= BOUGHT ORDERS ================= -->
-<h2>Bought Orders</h2>
-
-<% if (boughtOrders.length === 0) { %>
-    <p>No orders placed yet.</p>
-<% } %>
-
-<% boughtOrders.forEach(order => { %>
-    <div class="order-card">
-        <h3>Order #<%= order.id %></h3>
-        <p>Status: <%= order.order_status %></p>
-        <p>Total: ₹ <%= order.total_amount %></p>
-        <p>Date: <%= order.created_at %></p>
-
-        <ul>
-            <% order.items.forEach(item => { %>
-                <li>
-                    <%= item.product_title %> × <%= item.quantity %>
-                    (₹ <%= item.price_at_purchase %>)
-                </li>
-            <% }) %>
-        </ul>
-
-        <% if (order.order_status !== 'COMPLETED' && order.order_status !== 'CANCELLED') { %>
-            <form action="/user/orders/<%= order.id %>/cancel" method="POST">
-                <button type="submit">Cancel Order</button>
-            </form>
-        <% } %>
+<!-- ================= HEADER ================= -->
+<header class="orders-header">
+    <div class="container">
+        <h1 class="orders-title">My Orders</h1>
+        <p class="orders-subtitle">
+            Track your purchases and manage your sales
+        </p>
     </div>
-<% }) %>
+</header>
 
+<main class="orders-section">
+    <div class="container">
 
-<hr>
+        <!-- ================= BOUGHT ORDERS ================= -->
+        <section class="orders-block">
+            <h2 class="section-heading">Bought Orders</h2>
 
-<!-- ================= SOLD ORDERS ================= -->
-<h2>Sold Orders</h2>
-
-<% if (soldOrders.length === 0) { %>
-    <p>No products sold yet.</p>
-<% } %>
-
-<% soldOrders.forEach(order => { %>
-    <div class="order-card">
-        <h3>Order #<%= order.id %></h3>
-        <p>Status: <%= order.order_status %></p>
-        <p>Total: ₹ <%= order.total_amount %></p>
-        <p>Date: <%= order.created_at %></p>
-
-        <ul>
-            <% order.items.forEach(item => { %>
-                <li>
-                    <%= item.product_title %> × <%= item.quantity %>
-                    (₹ <%= item.price_at_purchase %>)
-                </li>
-            <% }) %>
-        </ul>
-
-        <% if (order.order_status !== 'COMPLETED' && order.order_status !== 'CANCELLED') { %>
-
-            <!-- Confirm Order (seller only) -->
-            <% if (order.order_status === 'PLACED') { %>
-                <form action="/user/orders/<%= order.id %>/confirm" method="POST">
-                    <button type="submit">Confirm Order</button>
-                </form>
+            <% if (boughtOrders.length === 0) { %>
+                <p class="empty-state">No orders placed yet.</p>
             <% } %>
 
-            <!-- Cancel Order -->
-            <form action="/user/orders/<%= order.id %>/cancel" method="POST">
-                <button type="submit">Cancel Order</button>
-            </form>
+            <% boughtOrders.forEach(order => { %>
+                <div class="order-card">
 
-        <% } %>
+                    <div class="order-header">
+                        <h3>Order #<%= order.id %></h3>
+                        <span class="order-status <%= order.order_status.toLowerCase() %>">
+                            <%= order.order_status %>
+                        </span>
+                    </div>
+
+                    <div class="order-meta">
+                        <p>Total: <strong>₹ <%= order.total_amount %></strong></p>
+                        <p>Date: <%= order.created_at %></p>
+                    </div>
+
+                    <ul class="order-items">
+                        <% order.items.forEach(item => { %>
+                            <li>
+                                <span><%= item.product_title %></span>
+                                <span>
+                                    × <%= item.quantity %>
+                                    (₹ <%= item.price_at_purchase %>)
+                                </span>
+                            </li>
+                        <% }) %>
+                    </ul>
+
+                    <% if (order.order_status !== 'COMPLETED' && order.order_status !== 'CANCELLED') { %>
+                        <form class="order-action-form"
+                              action="/user/orders/<%= order.id %>/cancel"
+                              method="POST">
+                            <button class="btn danger" type="submit">
+                                Cancel Order
+                            </button>
+                        </form>
+                    <% } %>
+
+                </div>
+            <% }) %>
+        </section>
+
+        <!-- ================= SOLD ORDERS ================= -->
+        <section class="orders-block">
+            <h2 class="section-heading">Sold Orders</h2>
+
+            <% if (soldOrders.length === 0) { %>
+                <p class="empty-state">No products sold yet.</p>
+            <% } %>
+
+            <% soldOrders.forEach(order => { %>
+                <div class="order-card">
+
+                    <div class="order-header">
+                        <h3>Order #<%= order.id %></h3>
+                        <span class="order-status <%= order.order_status.toLowerCase() %>">
+                            <%= order.order_status %>
+                        </span>
+                    </div>
+
+                    <div class="order-meta">
+                        <p>Total: <strong>₹ <%= order.total_amount %></strong></p>
+                        <p>Date: <%= order.created_at %></p>
+                    </div>
+
+                    <ul class="order-items">
+                        <% order.items.forEach(item => { %>
+                            <li>
+                                <span><%= item.product_title %></span>
+                                <span>
+                                    × <%= item.quantity %>
+                                    (₹ <%= item.price_at_purchase %>)
+                                </span>
+                            </li>
+                        <% }) %>
+                    </ul>
+
+                    <% if (order.order_status !== 'COMPLETED' && order.order_status !== 'CANCELLED') { %>
+
+                        <% if (order.order_status === 'PLACED') { %>
+                            <form class="order-action-form"
+                                  action="/user/orders/<%= order.id %>/confirm"
+                                  method="POST">
+                                <button class="btn success" type="submit">
+                                    Confirm Order
+                                </button>
+                            </form>
+                        <% } %>
+
+                        <form class="order-action-form"
+                              action="/user/orders/<%= order.id %>/cancel"
+                              method="POST">
+                            <button class="btn danger" type="submit">
+                                Cancel Order
+                            </button>
+                        </form>
+
+                    <% } %>
+
+                </div>
+            <% }) %>
+        </section>
+
+        <div class="orders-footer">
+            <a class="back-link" href="/user">← Back to User Dashboard</a>
+        </div>
+
     </div>
-<% }) %>
-
-<br>
-<a href="/user">← Back to User Dashboard</a>
+</main>
 
 </body>
 </html>

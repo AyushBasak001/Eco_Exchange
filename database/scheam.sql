@@ -104,7 +104,7 @@ CREATE TABLE orders (
 
     CONSTRAINT fk_order_address
         FOREIGN KEY (delivery_address_id)
-        REFERENCES address(id)
+        REFERENCES address(user_id)
 );
 
 

@@ -1,3 +1,7 @@
+/* =======================
+   CSS VARIABLES
+======================= */
+
 :root {
     --primary-green: #2e7d32;
     --light-green: #e8f5e9;
@@ -6,6 +10,10 @@
     --muted-text: #546e7a;
     --white: #ffffff;
 }
+
+/* =======================
+   RESET & BASE
+======================= */
 
 * {
     margin: 0;
@@ -18,4 +26,95 @@ body {
     color: var(--dark-text);
     background-color: var(--white);
     line-height: 1.6;
+}
+
+/* =======================
+   LAYOUT UTILITIES
+======================= */
+
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* =======================
+   COMMON ELEMENTS
+======================= */
+
+.back-link {
+    text-decoration: none;
+    color: var(--primary-green);
+    font-weight: bold;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.empty-state {
+    color: var(--muted-text);
+    font-style: italic;
+    margin-top: 1rem;
+}
+
+/* =======================
+   BUTTONS (GLOBAL)
+======================= */
+
+.btn {
+    border: none;
+    padding: 0.45rem 0.9rem;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.85rem;
+}
+
+.btn.success {
+    background-color: var(--primary-green);
+    color: var(--white);
+}
+
+.btn.success:hover {
+    background-color: var(--accent-green);
+}
+
+.btn.danger {
+    background-color: #d32f2f;
+    color: var(--white);
+}
+
+.btn.danger:hover {
+    background-color: #b71c1c;
+}
+
+/* =======================
+   FORM GLOBAL
+======================= */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 0.85rem;
+    color: var(--muted-text);
+    margin-bottom: 0.2rem;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary-green);
 }

@@ -1,0 +1,156 @@
+/* =======================
+   HEADER
+======================= */
+
+.marketplace-header {
+    background-color: var(--light-green);
+    padding: 2.5rem 0;
+    border-bottom: 2px solid var(--accent-green);
+}
+
+.marketplace-title {
+    color: var(--primary-green);
+    font-size: 2.4rem;
+    margin-bottom: 0.5rem;
+}
+
+.marketplace-subtitle {
+    color: var(--muted-text);
+    font-size: 1.05rem;
+}
+
+/* =======================
+   INFO STRIP
+======================= */
+
+.info-strip {
+    background-color: var(--white);
+    padding: 2rem 0;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+}
+
+.info-card {
+    background-color: var(--light-green);
+    padding: 1.5rem;
+    border-radius: 10px;
+    border-left: 4px solid var(--primary-green);
+}
+
+.info-card h3 {
+    color: var(--primary-green);
+    margin-bottom: 0.4rem;
+    font-size: 1.1rem;
+}
+
+.info-card p {
+    color: var(--muted-text);
+    font-size: 0.95rem;
+}
+
+/* =======================
+   PRODUCT GRID
+======================= */
+
+.marketplace-section {
+    padding: 3rem 0;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 2rem;
+}
+
+/* =======================
+   PRODUCT CARD
+======================= */
+
+.product-card {
+    background-color: var(--white);
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 1.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
+}
+
+.product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.8rem;
+}
+
+.product-title {
+    font-size: 1.1rem;
+}
+
+.product-price {
+    font-size: 1.05rem;
+    color: var(--primary-green);
+    font-weight: bold;
+}
+
+.product-meta {
+    font-size: 0.9rem;
+    color: var(--muted-text);
+    margin-bottom: 1.2rem;
+}
+
+/* =======================
+   BUY FORM
+======================= */
+
+.buy-form {
+    display: flex;
+    gap: 0.6rem;
+}
+
+.quantity-input {
+    width: 10rem;
+    padding: 0.45rem;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+}
+
+.buy-btn {
+    flex: 1;
+    background-color: var(--primary-green);
+    color: var(--white);
+    border: none;
+    border-radius: 6px;
+    padding: 0.55rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.buy-btn:hover {
+    background-color: var(--accent-green);
+}
+
+.sold-out-badge {
+    text-align: center;
+    padding: 0.6rem;
+    background-color: #eee;
+    color: #777;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.marketplace-footer {
+    padding: 2rem 0;
+    border-top: 1px solid #ddd;
+    margin-top: 3rem;
+}
