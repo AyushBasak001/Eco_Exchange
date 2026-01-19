@@ -51,7 +51,8 @@ export const login = async (req, res) => {
         maxAge: 60 * 60 * 1000 // 1 hour
     });
 
-    return res.redirect("/user"); 
+    if(role === 'USER') return res.redirect("/user"); 
+    else if(role === 'ADMIN') return res.redirect("/admin");
 }
 
 export async function signup(req, res) {

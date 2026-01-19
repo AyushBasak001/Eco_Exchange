@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url';
 import cookieParser from "cookie-parser";
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +21,7 @@ app.use(cookieParser());
 // Routes
 app.use('/auth' , authRoutes);
 app.use('/user' , userRoutes);
+app.use('/admin', adminRoutes);
 
 app.get("/", (req, res) => {
   try {
