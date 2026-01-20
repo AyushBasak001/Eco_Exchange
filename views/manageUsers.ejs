@@ -6,7 +6,32 @@
     <title>Eco-Exchange | Manage Users</title>
 </head>
 <body>
-    <p>Manage Users Here!!</p>
+    <h1>Manage Users</h1>
+    <p>Verify, disable and view users</p>
+
+    <% userList.forEach(user => { %>
+
+        <p>username: <%= user.username %></p>
+        <p>email: <%= user.email %></p>
+        <p>role: <%= user.role %></p>
+
+        <form method="POST" action="/admin/users/<%= user.id %>">
+            <div>
+                <label>Active User</label>
+                <input type="checkbox" name="is_active"
+                <%= user.is_active ? "checked" : "" %>>
+            </div>
+
+            <div>
+                <label>Verified User</label>
+                <input type="checkbox" name="is_verified"
+                <%= user.is_verified ? "checked" : "" %>>
+            </div>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    <% }) %>
+
     <div>
         <a href="/admin">← Back to Admin Dashboard</a>
     </div>

@@ -18,12 +18,18 @@ export const renderAdminPage = async (req, res) => {
 
 export const manageUsers = async (req,res) => {
     try {
-        return res.status(200).render("manageUsers.ejs");
+        const adminId = req.user.id;
+
+        const { rows: userRows } = await db.query(
+            "SELECT id, username, email, role, is_active, is_verified, created_at FROM users ORDER BY created_at DESC");
+
+        return res.status(200).render("manageUsers.ejs", {
+            userList: userRows
+        });
 
     } catch (err) {
         console.error("GET /admin/users error:", err.message);
-
-        return res.status(500).send("Internal server error");
+        return res.status(500).send("Failed to load profile");
     }
 }
 
@@ -73,6 +79,28 @@ export const manageAdminProfile = async (req,res) => {
         return res.status(500).send("Failed to load profile");
     }
 }
+
+export const editUser = async (req, res) => {
+    try {
+        const userId = req.params.userId;
+        const {is_active, is_verified} = req.body;
+
+        await db.query(
+            `UPDATE users 
+            SET
+                is_active = $1,
+                is_verified = $2
+            WHERE id = $3`,
+            [is_active, is_verified, userId]
+        );
+
+        return res.status(200).redirect("/admin/users");
+
+    } catch (err) {
+        console.error("POST /admin/users/:userId error:", err.message);
+        return res.status(500).send("Failed to edit user details");
+    }
+};
 
 export const editAdminAddress = async (req, res) => {
     try {
