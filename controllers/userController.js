@@ -131,7 +131,6 @@ export const renderUserOrders = async (req, res) => {
     }
 };
 
-
 export const renderUserProfile = async (req, res) => {
   try {
         const userId = req.user.id;
