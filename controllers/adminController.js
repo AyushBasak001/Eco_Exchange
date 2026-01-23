@@ -35,13 +35,29 @@ export const manageUsers = async (req,res) => {
 
 export const manageProducts = async (req,res) => {
     try {
-        return res.status(200).render("manageProducts.ejs");
+    const { rows: productList } = await db.query(`
+            SELECT 
+                p.id,
+                p.title,
+                p.price,
+                p.quantity_available,
+                u.username AS seller_name,
+                ARRAY_AGG(pi.image_url) AS images
+            FROM product p
+            JOIN users u ON p.seller_id = u.id
+            LEFT JOIN product_image pi ON p.id = pi.product_id
+            WHERE p.status = 'APPROVED'
+            GROUP BY p.id, u.username
+            ORDER BY p.created_at DESC
+        `);
 
-    } catch (err) {
-        console.error("GET /admin/products error:", err.message);
+        return res.status(200).render("manageProducts", { productList });
 
-        return res.status(500).send("Internal server error");
-    }
+  } catch (err) {
+    console.error("GET /admin/products error:", err.message);
+
+    return res.status(500).send("Failed to load marketplace");
+  }
 }
 
 export const manageOrders = async (req,res) => {
