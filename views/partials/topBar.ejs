@@ -3,9 +3,9 @@
         <p>Eco-Exchange</p>
     </div>
     <div>
-        <% if (user) { %>
-            <p><strong><%= user.username %></strong></p>
-            <p>(<%= user.role %>)</p>
+        <% if (locals.user) { %>
+            <p><strong><%= locals.user.username %></strong></p>
+            <p>(<%= locals.user.role %>)</p>
         <% } else { %>
             <a href="/auth">Login</a>
         <% } %>

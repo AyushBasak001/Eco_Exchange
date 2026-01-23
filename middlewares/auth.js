@@ -26,7 +26,7 @@ export function authRequired(allowedRoles = []) {
 };
 
 export const attachUser = (req, res, next) => {
-    const token = req.cookies?.token; // name of your JWT cookie
+    const token = req.cookies?.auth_token; // name of your JWT cookie
 
     if (!token) {
         res.locals.user = null;
@@ -34,8 +34,8 @@ export const attachUser = (req, res, next) => {
     }
 
     try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        res.locals.user = decoded; 
+        const decoded = verifyToken(token);
+        res.locals.user = decoded;
         // { id, username, role }
     } catch (err) {
         res.locals.user = null;

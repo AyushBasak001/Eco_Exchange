@@ -1,15 +1,15 @@
-<%- include('partials/htmlHead.ejs') %>
+<%- include('partials/htmlHead.ejs') %>  <!-- , {pageCss: "/styles/userProfile.css"} -->
 
 <body>
-    <div>
+    <div class="top-bar">
         <%- include('partials/topBar.ejs') %>
     </div>
 
-    <div>
+    <div class="side-bar">
         <%- include('partials/userSidebar.ejs') %>
     </div>
 
-    <div>
+    <div class="main-content">
         <!-- ================= PROFILE HEADER ================= -->
         <header class="profile-header">
             <div class="container">
@@ -90,7 +90,7 @@
         </main>
     </div>
 
-    <div>
+    <div class="footer">
         <%- include('partials/footer.ejs') %>
     </div>
 </body>

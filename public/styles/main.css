@@ -11,110 +11,27 @@
     --white: #ffffff;
 }
 
-/* =======================
-   RESET & BASE
-======================= */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
 body {
-    color: var(--dark-text);
-    background-color: var(--white);
-    line-height: 1.6;
+    background-color: var(--light-green);
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-template-rows: 1fr 10fr 1fr;
 }
 
-/* =======================
-   LAYOUT UTILITIES
-======================= */
-
-.container {
-    width: 90%;
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-/* =======================
-   COMMON ELEMENTS
-======================= */
-
-.back-link {
-    text-decoration: none;
-    color: var(--primary-green);
-    font-weight: bold;
-}
-
-.back-link:hover {
-    text-decoration: underline;
-}
-
-.empty-state {
-    color: var(--muted-text);
-    font-style: italic;
-    margin-top: 1rem;
-}
-
-/* =======================
-   BUTTONS (GLOBAL)
-======================= */
-
-.btn {
-    border: none;
-    padding: 0.45rem 0.9rem;
-    border-radius: 6px;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 0.85rem;
-}
-
-.btn.success {
-    background-color: var(--primary-green);
-    color: var(--white);
-}
-
-.btn.success:hover {
+.top-bar{
+    grid-area: 1/1/2/3;
     background-color: var(--accent-green);
 }
 
-.btn.danger {
-    background-color: #d32f2f;
-    color: var(--white);
+.side-bar{
+    background-color: var(--primary-green);
 }
 
-.btn.danger:hover {
-    background-color: #b71c1c;
+.main-content{
+    background-color: var(--light-green);
 }
 
-/* =======================
-   FORM GLOBAL
-======================= */
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
-    font-size: 0.85rem;
-    color: var(--muted-text);
-    margin-bottom: 0.2rem;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
-    padding: 0.5rem;
-    border-radius: 6px;
-    border: 1px solid #bbb;
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: var(--primary-green);
+.footer{
+    grid-area: 3/1/4/3;
+    background-color: var(--accent-green);
 }
