@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cookieParser from "cookie-parser";
+import {attachUser} from './middlewares/auth.js'
 import authRoutes from './routes/authRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
@@ -17,6 +18,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(attachUser);
 
 // Routes
 app.use('/auth' , authRoutes);

@@ -51,8 +51,8 @@ export const login = async (req, res) => {
         maxAge: 60 * 60 * 1000 // 1 hour
     });
 
-    if(role === 'USER') return res.redirect("/user"); 
-    else if(role === 'ADMIN') return res.redirect("/admin");
+    if(role === 'USER') return res.redirect("/user/profile"); 
+    else if(role === 'ADMIN') return res.redirect("/admin/profile");
 }
 
 export async function signup(req, res) {
@@ -95,7 +95,6 @@ export async function signup(req, res) {
         client.release();
     }
 }
-
 
 export function logout(req, res) {
     res.clearCookie("auth_token");

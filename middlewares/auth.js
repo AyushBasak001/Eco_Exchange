@@ -23,4 +23,23 @@ export function authRequired(allowedRoles = []) {
             return res.redirect('/auth');
         }
     };
-}
+};
+
+export const attachUser = (req, res, next) => {
+    const token = req.cookies?.token; // name of your JWT cookie
+
+    if (!token) {
+        res.locals.user = null;
+        return next();
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        res.locals.user = decoded; 
+        // { id, username, role }
+    } catch (err) {
+        res.locals.user = null;
+    }
+
+    next();
+};

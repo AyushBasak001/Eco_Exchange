@@ -1,90 +1,80 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eco-Exchange | Login</title>
-    <link rel="stylesheet" href="/styles/main.css">
-    <link rel="stylesheet" href="/styles/loginPage.css">
-</head>
+<%- include('partials/htmlHead.ejs') %>
 
-<body class="auth-page">
+<body>
+    <div>
+        <%- include('partials/topBar.ejs') %>
+    </div>
+        
+    <div>
+        <!-- LOGIN FORM -->
+        <form method="POST" action="/auth/login">
+            <h3>Login</h3>
 
-    <div class="auth-container">
+            <div>
+                <label>Username</label>
+                <input type="text" name="username" required>
+            </div>
 
-        <h1 class="auth-title">Eco-Exchange</h1>
-        <p class="auth-subtitle">Login or create an account to continue</p>
+            <div>
+                <label>Email</label>
+                <input type="text" name="email" required>
+            </div>
 
-        <div class="auth-forms">
+            <div>
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
 
-            <!-- LOGIN FORM -->
-            <form class="auth-card" method="POST" action="/auth/login">
-                <h3>Login</h3>
+            <div>
+                <label>Role</label>
+                <select name="role" required>
+                    <option value="">Select role</option>
+                    <option value="USER">User</option>
+                    <option value="MODERATOR">Moderator</option>
+                    <option value="ADMIN">Admin</option>
+                </select>
+            </div>
 
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" name="username" required>
-                </div>
+            <button type="submit">Login</button>
+        </form>
 
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="text" name="email" required>
-                </div>
+        <!-- SIGNUP FORM -->
+        <form method="POST" action="/auth/signup">
+            <h3>Signup</h3>
 
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" required>
-                </div>
+            <div>
+                <label>Username</label>
+                <input type="text" name="username" required>
+            </div>
 
-                <div class="form-group">
-                    <label>Role</label>
-                    <select name="role" required>
-                        <option value="">Select role</option>
-                        <option value="USER">User</option>
-                        <option value="MODERATOR">Moderator</option>
-                        <option value="ADMIN">Admin</option>
-                    </select>
-                </div>
+            <div>
+                <label>Email</label>
+                <input type="text" name="email" required>
+            </div>
 
-                <button type="submit" class="btn-primary">Login</button>
-            </form>
+            <div>
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
 
-            <!-- SIGNUP FORM -->
-            <form class="auth-card" method="POST" action="/auth/signup">
-                <h3>Signup</h3>
+            <div>
+                <label>Role</label>
+                <select name="role" required>
+                    <option value="">Select role</option>
+                    <option value="USER">User</option>
+                    <option value="MODERATOR">Moderator</option>
+                    <option value="ADMIN">Admin</option>
+                </select>
+            </div>
 
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="text" name="username" required>
-                </div>
+            <button type="submit">Signup</button>
+        </form>
 
-                <div class="form-group">
-                    <label>Email</label>
-                    <input type="text" name="email" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" name="password" required>
-                </div>
-
-                <div class="form-group">
-                    <label>Role</label>
-                    <select name="role" required>
-                        <option value="">Select role</option>
-                        <option value="USER">User</option>
-                        <option value="MODERATOR">Moderator</option>
-                        <option value="ADMIN">Admin</option>
-                    </select>
-                </div>
-
-                <button type="submit" class="btn-secondary">Signup</button>
-            </form>
-
-        </div>
-
-        <a href="/" class="exit-link">← Back to Home</a>
+        <a href="/">← Back to Home</a>
     </div>
 
+    <div>
+        <%- include('partials/footer.ejs') %>
+    </div>
 </body>
 </html>

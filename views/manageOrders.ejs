@@ -1,13 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eco-Exchange | Manage orders</title>
-</head>
+<%- include('partials/htmlHead.ejs') %>
+
 <body>
-    <p>Manage Orders Here!!</p>
     <div>
-        <a href="/admin">← Back to Admin Dashboard</a>
+        <%- include('partials/topBar.ejs') %>
+    </div>
+
+    <div>
+        <%- include('partials/adminSidebar.ejs') %>
+    </div>
+
+    <div>
+        <p>Manage Orders Here!!</p>
+    </div>
+
+    <div>
+        <%- include('partials/footer.ejs') %>
     </div>
 </body>
+</html>

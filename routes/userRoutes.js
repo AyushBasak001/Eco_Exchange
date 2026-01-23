@@ -1,6 +1,5 @@
 import express from 'express';
 import {
-    renderUserPage,
     renderMarketplace,
     renderSellPage,
     renderUserOrders,
@@ -17,7 +16,6 @@ import {authRequired} from '../middlewares/auth.js'
 
 const router = express.Router();
 
-router.get('/', authRequired(['USER']), renderUserPage);
 router.get('/marketplace', authRequired(['USER']), renderMarketplace);
 router.get('/sell', authRequired(['USER']), renderSellPage);
 router.get('/orders', authRequired(['USER']), renderUserOrders);

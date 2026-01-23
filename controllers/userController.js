@@ -1,21 +1,5 @@
 import { db } from '../utils/db.js';
 
-export const renderUserPage = async (req, res) => {
-  try {
-    if (!req.user) {
-      return res.redirect("/auth");
-    }
-    const { username } = req.user;
-
-    return res.status(200).render("user.ejs", {username});
-
-  } catch (err) {
-    console.error("GET /user error:", err.message);
-
-    return res.status(500).send("Internal server error");
-  }
-}
-
 export const renderMarketplace = async (req, res) => {
   try {
     const { rows: products } = await db.query(`

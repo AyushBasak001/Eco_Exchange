@@ -1,38 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eco-Exchange | Manage Products</title>
-</head>
+<%- include('partials/htmlHead.ejs') %>
+
 <body>
-    <h1>Manage Products</h1>
-    <p>Verify, disable and view products</p>
-
-    <% productList.forEach(product => { %>
-
-        <p>title: <%= product.title %></p>
-        <p>price: <%= product.price %></p>
-        <p>Seller: <%= product.seller_name %></p>
-        <p>Quantity Available: <%= product.quantity_available %></p>
-
-        <form method="POST" action="/admin/products/<%= product.id %>">
-            <div>
-                <label>Status</label>
-                <select name="status" required>
-                    <option value="DRAFT">Draft</option>
-                    <option value="PENDING">Pending</option>
-                    <option value="APPROVED">Approved</option>
-                    <option value="SOLD">Sold</option>
-                    <option value="REMOVED">Removed</option>
-                </select>
-            </div>
-
-            <button type="submit">Save Changes</button>
-        </form>
-    <% }) %>
+    <div>
+        <%- include('partials/topBar.ejs') %>
+    </div>
 
     <div>
-        <a href="/admin">← Back to Admin Dashboard</a>
+        <%- include('partials/adminSidebar.ejs') %>
+    </div>
+
+    <div>
+        <h1>Manage Products</h1>
+        <p>Verify, disable and view products</p>
+
+        <% productList.forEach(product => { %>
+
+            <p>title: <%= product.title %></p>
+            <p>price: <%= product.price %></p>
+            <p>Seller: <%= product.seller_name %></p>
+            <p>Quantity Available: <%= product.quantity_available %></p>
+
+            <form method="POST" action="/admin/products/<%= product.id %>">
+                <div>
+                    <label>Status</label>
+                    <select name="status" required>
+                        <option value="DRAFT">Draft</option>
+                        <option value="PENDING">Pending</option>
+                        <option value="APPROVED">Approved</option>
+                        <option value="SOLD">Sold</option>
+                        <option value="REMOVED">Removed</option>
+                    </select>
+                </div>
+
+                <button type="submit">Save Changes</button>
+            </form>
+        <% }) %>
+
+    </div>
+
+    <div>
+        <%- include('partials/footer.ejs') %>
     </div>
 </body>
+</html>
