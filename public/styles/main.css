@@ -3,35 +3,210 @@
 ======================= */
 
 :root {
-    --primary-green: #2e7d32;
-    --light-green: #e8f5e9;
-    --accent-green: #66bb6a;
-    --dark-text: #263238;
-    --muted-text: #546e7a;
-    --white: #ffffff;
+    --standard-green: hsl(120, 100%, 25%);
+    --background-1: hsl(120, 40%, 95%);
+    --background-2: hsl(120, 70%, 50%);
+    --background-3: hsl(120, 100%, 20%);
+    --background-4: hsl(120, 40%, 70%);
+    --text-1: hsl(120, 100%, 100%);
+    --text-2: hsl(120, 100%, 5%);
 }
+
+/* =======================
+   RESET & BASE
+======================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* =======================
+   MAIN LAYOUT GRID
+======================= */
 
 body {
-    background-color: var(--light-green);
+    background-color: var(--background-1);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    
     display: grid;
-    grid-template-columns: 1fr 4fr;
-    grid-template-rows: 1fr 10fr 1fr;
+
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: 60px 1fr 50px;
+
+    height: 100vh;
+    overflow: hidden; /* 🔒 no page scroll */
 }
+
+.top-bar {
+    grid-area: 1/1/2/3;
+
+    display: flex;
+    justify-content: center;
+}
+
+.side-bar {
+    overflow-y: auto; /* sidebar scroll if needed */
+}
+
+.main-content {
+    overflow-y: auto; /* ✅ internal scroll only */
+}
+
+.extended-content {
+    grid-area: 2/1/3/3;
+    overflow-y: auto; /* ✅ internal scroll only */
+}
+
+.footer {
+    grid-area: 3/1/4/3;
+}
+
+/* ==========
+   Top Bar
+============= */
 
 .top-bar{
-    grid-area: 1/1/2/3;
-    background-color: var(--accent-green);
+    background-color: var(--background-2);
+    margin-bottom: 5px;
+
 }
 
-.side-bar{
-    background-color: var(--primary-green);
+.top-bar nav {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-content: center;
+
+    border-radius: 15px;
+    padding: 0px 20px;
 }
 
-.main-content{
-    background-color: var(--light-green);
+.top-bar > nav > .brand a {
+    all: unset;
+    color: var(--text-2);
+    font-size: 2rem;
+    font-weight: bolder;
+    cursor: pointer;
 }
+
+.top-bar > nav > .auth > .user {
+    all: unset;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.top-bar > nav > .auth > .user > .user-name{
+    color: var(--text-2);
+    font-size: large;
+    font-weight: bold;
+    margin: 0px;
+}
+
+.top-bar > nav > .auth > .user > .user-role{
+    color: var(--text-1);
+    font-size: small;
+    font-weight: lighter;
+    margin: 0px;
+}
+
+.top-bar > nav > .auth > .login-link {
+    all: unset;
+    color: var(--text-1);
+    font-size: larger;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+/* ==========
+   Side Bar
+============= */
+
+.side-bar nav {
+    background-color: var(--background-3);
+    height: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.side-nav-link{
+    all: unset;
+
+    color: var(--text-1);
+    font-weight: bold;
+    font-size: large;
+    font-style: italic;
+    padding: 10px;
+
+    cursor: pointer;
+}
+
+.side-nav-link:hover{
+    font-weight: bolder;
+    font-size: larger;
+}
+
+.side-bar button{
+    color: red;
+    font-style: normal;
+}
+
+/* ==========
+   Footer
+============= */
 
 .footer{
-    grid-area: 3/1/4/3;
-    background-color: var(--accent-green);
+    background-color: var(--background-2);
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: center;
+
+    margin-top: 5px;
+}
+
+/* =============
+   Main Content
+================ */
+
+.main-content{
+    background-color: var(--background-4);
+
+    height: 100%;
+
+    border-radius: 15px;
+    padding: 10px;
+    margin-left: 5px;
+}
+
+/* =============
+   Extended Content
+================ */
+
+.extended-content{
+    background-color: var(--background-4);
+
+    height: 100%;
+
+    border-radius: 15px;
+    padding: 10px;
 }

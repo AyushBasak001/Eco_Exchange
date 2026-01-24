@@ -1,13 +1,26 @@
 <nav>
-    <div>
-        <p>Eco-Exchange</p>
+    <div class="brand">
+        <a href="/" class="brand-name">Eco-Exchange</a>
     </div>
-    <div>
+
+    <div class="auth">
         <% if (locals.user) { %>
-            <p><strong><%= locals.user.username %></strong></p>
-            <p>(<%= locals.user.role %>)</p>
+
+            <% if (locals.user.role === 'USER') { %>
+                <a href="/user/profile" class="user">
+                    <p class="user-name"><%= locals.user.username %></p>
+                    <p class="user-role"><%= locals.user.role %></p>
+                </a>
+            <% } else if (locals.user.role === 'ADMIN') { %>
+                <a href="/admin/profile" class="user">
+                    <p class="user-name"><%= locals.user.username %></p>
+                    <p class="user-role">ADMIN</p>
+                </a>
+            <% } %>
+
         <% } else { %>
-            <a href="/auth">Login</a>
+            <a href="/auth" class="login-link">Login</a>
         <% } %>
     </div>
+
 </nav>

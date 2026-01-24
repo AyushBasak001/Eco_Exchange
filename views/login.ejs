@@ -1,11 +1,11 @@
 <%- include('partials/htmlHead.ejs') %>
 
 <body>
-    <div>
+    <div class="top-bar">
         <%- include('partials/topBar.ejs') %>
     </div>
         
-    <div>
+    <div class="extended-content">
         <!-- LOGIN FORM -->
         <form method="POST" action="/auth/login">
             <h3>Login</h3>
@@ -73,7 +73,7 @@
         <a href="/">← Back to Home</a>
     </div>
 
-    <div>
+    <div class="footer">
         <%- include('partials/footer.ejs') %>
     </div>
 </body>
