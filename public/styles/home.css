@@ -1,0 +1,92 @@
+.home-section{
+    background-color: var(--background-1);
+
+    max-width: 75%;
+    margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border-radius: 20px;
+    
+}
+
+.home-section > .title {
+    color: var(--text-3);
+    font-size: x-large;
+    font-weight: bolder;
+    margin: 10px;
+    text-align: center;
+}
+
+.home-section > .details {
+    color: var(--text-2);
+    font-size: large;
+    margin: 10px;
+
+    max-width: 60%;
+    text-align: center;
+}
+
+.home-section > .container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+
+.home-section > .container > .tab {
+    max-width: 15rem;
+    background-color: var(--background-2);
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.home-working > .container > .tab > .heading {
+    color: var(--text-1);
+
+    font-size: large;
+    font-weight: bold;
+
+    margin: 0px;
+}
+
+.home-working > .container > .tab > .sub-heading {
+    color: var(--text-2);
+
+    margin: 5px;
+}
+
+.home-categories > .container > .tab{
+    color: var(--text-2);
+
+    font-size: large;
+    font-weight: bold;
+}
+
+.home-cta > .title {
+    margin: 5px;
+}
+
+.home-cta a {
+    all: unset;
+
+    background-color: var(--background-3);
+    color: var(--text-1);
+    padding: 10px;
+    margin: 5px;
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+.home-cta a:hover{
+    background-color: var(--background-2);
+    color: var(--text-2);
+}

@@ -1,4 +1,4 @@
-<%- include('partials/htmlHead.ejs') %>
+<%- include('partials/htmlHead.ejs', {pageCss: "/styles/home.css"}) %>
 
 <body>
     <div class="top-bar">
@@ -6,60 +6,48 @@
     </div>
 
     <div class="extended-content">
-        <!-- HERO -->
-        <section>
-            <h1>Turning Waste into Worth</h1>
-            <p>
+
+        <div class="home-section home-hero">
+            <p class="title">Turning Waste into Worth</p>
+            <p class="details">
                 Eco-Exchange is a sustainable marketplace where waste materials are transformed into valuable, eco-friendly products.
                 Buy responsibly. Sell consciously. Make an impact.
             </p>
-        </section>
+        </div>
 
-        <!-- HOW IT WORKS -->
-        <section>
-            <h2>How It Works</h2>
-            <div>
-                <div>
-                    <h3>1. Collect Waste</h3>
-                    <p>Plastic, metal, paper, fabric — every waste has value.</p>
+        <div class="home-section home-working">
+            <p class="title">How It Works</p>
+            <div class="container">
+                <div class="tab">
+                    <p class="heading">1. Collect Waste</p>
+                    <p class="sub-heading">Plastic, metal, paper, fabric — every waste has value.</p>
                 </div>
-                <div>
-                    <h3>2. Create Products</h3>
-                    <p>Artisans and recyclers convert waste into usable goods.</p>
+                <div class="tab">
+                    <p class="heading">2. Create Products</p>
+                    <p class="sub-heading">Artisans and recyclers convert waste into usable goods.</p>
                 </div>
-                <div>
-                    <h3>3. Buy & Sell</h3>
-                    <p>Users buy sustainable products or sell their creations.</p>
+                <div class="tab">
+                    <p class="heading">3. Buy & Sell</p>
+                    <p class="sub-heading">Users buy sustainable products or sell their creations.</p>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- CATEGORIES -->
-        <section>
-            <h2>Popular Categories</h2>
-            <div>
-                <p>Recycled Plastic</p>
-                <p>Upcycled Metal</p>
-                <p>Eco-Furniture</p>
-                <p>Handmade Crafts</p>
+        <div class="home-section home-categories">
+            <p class="title">Popular Categories</p>
+            <div class="container">
+                <p class="tab">Recycled Plastic</p>
+                <p class="tab">Upcycled Metal</p>
+                <p class="tab">Eco-Furniture</p>
+                <p class="tab">Handmade Crafts</p>
             </div>
-        </section>
+        </div>
 
-        <!-- IMPACT -->
-        <section>
-            <h2>Why Eco-Exchange?</h2>
-            <p>
-                Every transaction reduces landfill waste, supports small creators,
-                and moves us one step closer to a circular economy.
-            </p>
-        </section>
-
-        <!-- CTA -->
-        <section>
-            <h2>Be a Part of the Green Revolution</h2>
-            <p>Login to start buying or selling eco-friendly products today.</p>
+        <div class="home-section home-cta">
+            <p class="title">Be a Part of the Green Revolution</p>
+            <p class="details">Login to start buying or selling eco-friendly products today.</p>
             <a href="/auth">Login to Continue</a>
-        </section>
+        </div>
     </div>
 
     <div class="footer">
