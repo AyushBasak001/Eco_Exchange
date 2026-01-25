@@ -1,0 +1,73 @@
+.main-content > .content-header {
+    color: var(--text-2);
+}
+
+.main-content > .profile-tab-container{
+    display: flex;
+    height: 80%;
+}
+
+.main-content > .profile-tab-container > .profile-tab {
+    background-color: var(--background-1);
+
+    width: 50%;
+    border-radius: 15px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.main-content > .profile-tab-container > .profile-tab > .title {
+    color: var(--text-2);
+    justify-self: center;
+
+    font-size: x-large;
+    font-weight: 400;
+}
+
+.main-content > .profile-tab-container > .profile-tab .label {
+    all: unset;
+    
+    color: var(--text-2);
+
+    font-size: large;
+    font-weight: bold;
+}
+
+.main-content > .profile-tab-container > .profile-tab .value {
+    all: unset;
+
+    color: var(--text-2);
+}
+
+.main-content > .profile-tab-container > .profile-tab >.address-form{
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    row-gap: 10px;
+}
+
+.address-form button.btn {
+    all: unset;
+
+    grid-column: 1 / -1; /* Spans from the first line to the last line */
+    justify-self: start; /* Prevents the button from stretching to full width */
+    margin-top: 20px;
+
+    background-color: var(--background-3);
+    color: var(--text-1);
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px;
+    font-weight: bold;
+}
+
+.address-form button.btn:hover{
+    background-color: var(--background-2);
+    color: var(--text-2);
+}
+
+
+.main-content > .profile-tab-container > .profile-tab >.address-form .value {
+    background-color: var(--background-4);
+    padding-left: 5px;
+    border-radius: 5px;
+}

@@ -120,7 +120,7 @@ export const renderUserProfile = async (req, res) => {
         const userId = req.user.id;
 
         const { rows: userRows } = await db.query(
-            "SELECT id, username, email, role FROM users WHERE id = $1",
+            "SELECT id, username, email, role, is_active, is_verified FROM users WHERE id = $1",
             [userId]
         );
 
