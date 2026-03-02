@@ -1,4 +1,4 @@
-<%- include('partials/htmlHead.ejs') %>
+<%- include('partials/htmlHead.ejs', {pageCss: "/styles/auth.css"}) %>
 
 <body>
     <div class="top-bar">
@@ -6,26 +6,21 @@
     </div>
         
     <div class="extended-content">
-        <!-- LOGIN FORM -->
-        <form method="POST" action="/auth/login">
-            <h3>Login</h3>
+        
+        <p class="form-title">Login</p>
 
-            <div>
-                <label>Username</label>
-                <input type="text" name="username" required>
-            </div>
+        <form class="auth-form" method="POST" action="/auth/login">
 
-            <div>
-                <label>Email</label>
-                <input type="text" name="email" required>
-            </div>
+            <p class="label">Username :</p>
+            <input class="value" type="text" name="username" required>
+        
+            <p class="label">Email :</p>
+            <input class="value" type="email" name="email" required>
+        
+            <p class="label">Password :</p>
+            <input class="value" type="password" name="password" required>
 
-            <div>
-                <label>Password</label>
-                <input type="password" name="password" required>
-            </div>
-
-            <div>
+             <div>
                 <label>Role</label>
                 <select name="role" required>
                     <option value="">Select role</option>
@@ -34,47 +29,56 @@
                     <option value="ADMIN">Admin</option>
                 </select>
             </div>
-
-            <button type="submit">Login</button>
+        
+            <button class="btn success" type="submit">Login</button>
         </form>
 
-        <!-- SIGNUP FORM -->
-        <form method="POST" action="/auth/signup">
-            <h3>Signup</h3>
-
-            <div>
-                <label>Username</label>
-                <input type="text" name="username" required>
-            </div>
-
-            <div>
-                <label>Email</label>
-                <input type="text" name="email" required>
-            </div>
-
-            <div>
-                <label>Password</label>
-                <input type="password" name="password" required>
-            </div>
-
-            <div>
-                <label>Role</label>
-                <select name="role" required>
-                    <option value="">Select role</option>
-                    <option value="USER">User</option>
-                    <option value="MODERATOR">Moderator</option>
-                    <option value="ADMIN">Admin</option>
-                </select>
-            </div>
-
-            <button type="submit">Signup</button>
-        </form>
-
-        <a href="/">← Back to Home</a>
+        <p>
+            <span id="toggle-text">Don't have an account?</span>
+            <button type="button" class="link-btn" onclick="toggleAuth()">
+                Switch to Signup
+            </button>
+        </p>
     </div>
 
     <div class="footer">
         <%- include('partials/footer.ejs') %>
     </div>
+
+<script>
+    function toggleAuth() {
+        const form = document.querySelector('.auth-form');
+        const title = document.querySelector('.form-title');
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const toggleText = document.getElementById('toggle-text');
+        const toggleBtn = window.event.target;
+
+        // fade out
+        form.classList.add('fade-out');
+        form.classList.remove('fade-in');
+
+        setTimeout(() => {
+            if (form.action.includes('/auth/login')) {
+                // Signup mode
+                form.action = '/auth/signup';
+                title.innerText = 'Signup';
+                submitBtn.innerText = 'Signup';
+                toggleText.innerText = 'Already have an account?';
+                toggleBtn.innerText = 'Switch to Login';
+            } else {
+                // Login mode
+                form.action = '/auth/login';
+                title.innerText = 'Login';
+                submitBtn.innerText = 'Login';
+                toggleText.innerText = "Don't have an account?";
+                toggleBtn.innerText = 'Switch to Signup';
+            }
+
+            // fade in
+            form.classList.remove('fade-out');
+            form.classList.add('fade-in');
+        }, 200);
+    }
+</script>
 </body>
 </html>

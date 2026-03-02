@@ -1,0 +1,13 @@
+.auth-form {
+    transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.auth-form.fade-out {
+    opacity: 0;
+    transform: translateY(8px);
+}
+
+.auth-form.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
