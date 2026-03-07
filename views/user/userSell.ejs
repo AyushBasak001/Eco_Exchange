@@ -1,12 +1,13 @@
-<%- include('partials/htmlHead.ejs') %>
+<%- include('../partials/htmlHead.ejs', {pageCss: "/styles/userSales.css"}) %>  
+
 
 <body>
     <div class="top-bar">
-        <%- include('partials/topBar.ejs') %>
+        <%- include('../partials/topBar.ejs') %>
     </div>
 
     <div class="side-bar">
-        <%- include('partials/userSidebar.ejs') %>
+        <%- include('../partials/userSidebar.ejs') %>
     </div>
 
     <div class="main-content">
@@ -138,16 +139,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Waste Type</label>
-                            <select name="waste_type_id" required>
-                                <option value="">Select Waste Type</option>
-                                <% wasteTypes.forEach(w => { %>
-                                    <option value="<%= w.id %>"><%= w.name %></option>
-                                <% }) %>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
                             <label>Price (₹)</label>
                             <input type="number" name="price" step="0.01" min="0" required>
                         </div>
@@ -166,7 +157,7 @@
     </div>
 
     <div class="footer">
-        <%- include('partials/footer.ejs') %>
+        <%- include('../partials/footer.ejs') %>
     </div>
 </body>
 </html>

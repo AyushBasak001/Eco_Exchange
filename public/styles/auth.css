@@ -1,7 +1,76 @@
+.form-container {
+    background-color: var(--background-1);
+    max-width: 500px;
+    margin: 8% auto;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.form-container > .error {
+    color: red;
+    font-size: medium;
+    font-weight: 500;
+    margin: 0px;
+    text-align: center;
+}
+
+.form-title {
+    color: var(--text-2);
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
 .auth-form {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    row-gap: 18px;
+    column-gap: 15px;
     transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
+.label {
+    align-self: center;
+    color: var(--text-2);
+    font-weight: 500;
+}
+
+.value {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--background-4);
+    background-color: var(--background-4);
+    color: var(--text-2);
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.auth-form button {
+    grid-column: span 2;
+    padding: 10px;
+}
+
+.toggle-area {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.link-btn {
+    background: none;
+    border: none;
+    color: var(--text-3);
+    cursor: pointer;
+    font-weight: 500;
+    font-size: medium;
+}
+
+.link-btn:hover {
+    text-decoration: underline;
+}
+
+/* Animation */
 .auth-form.fade-out {
     opacity: 0;
     transform: translateY(8px);
@@ -10,4 +79,15 @@
 .auth-form.fade-in {
     opacity: 1;
     transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+    .auth-form {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-form button {
+        grid-column: auto;
+    }
 }

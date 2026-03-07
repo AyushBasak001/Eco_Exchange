@@ -5,9 +5,9 @@ export const manageUsers = async (req,res) => {
         const adminId = req.user.id;
 
         const { rows: userRows } = await db.query(
-            "SELECT id, username, email, role, is_active, is_verified, created_at FROM users ORDER BY created_at DESC");
+            "SELECT id, username, role, is_active, is_verified, created_at FROM users ORDER BY created_at DESC");
 
-        return res.status(200).render("manageUsers.ejs", {
+        return res.status(200).render("admin/manageUsers.ejs", {
             userList: userRows
         });
 
@@ -25,17 +25,15 @@ export const manageProducts = async (req,res) => {
                 p.title,
                 p.price,
                 p.quantity_available,
-                u.username AS seller_name,
-                ARRAY_AGG(pi.image_url) AS images
+                u.username AS seller_name
             FROM product p
             JOIN users u ON p.seller_id = u.id
-            LEFT JOIN product_image pi ON p.id = pi.product_id
             WHERE p.status = 'APPROVED'
             GROUP BY p.id, u.username
             ORDER BY p.created_at DESC
         `);
 
-        return res.status(200).render("manageProducts", { productList });
+        return res.status(200).render("admin/manageProducts.ejs", { productList });
 
   } catch (err) {
     console.error("GET /admin/products error:", err.message);
@@ -46,7 +44,7 @@ export const manageProducts = async (req,res) => {
 
 export const manageOrders = async (req,res) => {
     try {
-        return res.status(200).render("manageOrders.ejs");
+        return res.status(200).render("admin/manageOrders.ejs");
 
     } catch (err) {
         console.error("GET /admin/orders error:", err.message);
@@ -60,7 +58,7 @@ export const manageAdminProfile = async (req,res) => {
         const userId = req.user.id;
 
         const { rows: userRows } = await db.query(
-            "SELECT id, username, email, role, is_active, is_verified FROM users WHERE id = $1",
+            "SELECT id, username, role, is_active, is_verified FROM users WHERE id = $1",
             [userId]
         );
 
@@ -69,7 +67,7 @@ export const manageAdminProfile = async (req,res) => {
             [userId]
         );
 
-        return res.status(200).render("manageAdminProfile.ejs", {
+        return res.status(200).render("admin/manageAdminProfile.ejs", {
             user: userRows[0],
             address: addressRows[0]
         });
@@ -112,13 +110,12 @@ export const editAdminAddress = async (req, res) => {
             `UPDATE address 
              SET 
                 line1   = COALESCE($1, line1),
-                line2   = COALESCE($2, line2),
-                city    = COALESCE($3, city),
-                state   = COALESCE($4, state),
-                pincode = COALESCE($5, pincode),
-                phone   = COALESCE($6, phone)
-             WHERE user_id = $7`,
-            [line1, line2, city, state, pincode, phone, userId]
+                city    = COALESCE($2, city),
+                state   = COALESCE($3, state),
+                pincode = COALESCE($4, pincode),
+                phone   = COALESCE($5, phone)
+             WHERE user_id = $6`,
+            [line1, city, state, pincode, phone, userId]
         );
 
         return res.status(200).redirect("/admin/profile");

@@ -1,10 +1,8 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
     password_hash TEXT NOT NULL,
     role VARCHAR(20) NOT NULL CHECK (role IN ('USER', 'ADMIN', 'MODERATOR')),
-    profile_image_url TEXT,
     is_active BOOLEAN DEFAULT TRUE,
     is_verified BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -14,7 +12,6 @@ CREATE TABLE users (
 CREATE TABLE address (
     user_id INTEGER PRIMARY KEY, 
     line1 TEXT,
-    line2 TEXT,
     city VARCHAR(50),
     state VARCHAR(50),
     pincode VARCHAR(10),
@@ -30,13 +27,7 @@ CREATE TABLE address (
 CREATE TABLE category (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
-    description TEXT
-);
-
-CREATE TABLE waste_type (
-    id SERIAL PRIMARY KEY,
-    name VARCHAR(50) NOT NULL UNIQUE,
-    description TEXT
+    image_url TEXT
 );
 
 
@@ -44,7 +35,6 @@ CREATE TABLE product (
     id SERIAL PRIMARY KEY,
     seller_id INTEGER NOT NULL,
     category_id INTEGER NOT NULL,
-    waste_type_id INTEGER NOT NULL,
     title VARCHAR(100) NOT NULL,
     description TEXT,
     price NUMERIC(10,2) NOT NULL CHECK (price >= 0),
@@ -61,26 +51,9 @@ CREATE TABLE product (
         FOREIGN KEY (category_id)
         REFERENCES category(id),
 
-    CONSTRAINT fk_product_waste_type
-        FOREIGN KEY (waste_type_id)
-        REFERENCES waste_type(id),
-
     CONSTRAINT fk_product_approved_by
         FOREIGN KEY (approved_by)
         REFERENCES users(id)
-);
-
-
-CREATE TABLE product_image (
-    id SERIAL PRIMARY KEY,
-    product_id INTEGER NOT NULL,
-    image_url TEXT NOT NULL,
-    is_primary BOOLEAN DEFAULT FALSE,
-
-    CONSTRAINT fk_image_product
-        FOREIGN KEY (product_id)
-        REFERENCES product(id)
-        ON DELETE CASCADE
 );
 
 CREATE TABLE orders (

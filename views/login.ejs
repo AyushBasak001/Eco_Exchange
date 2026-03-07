@@ -6,39 +6,38 @@
     </div>
         
     <div class="extended-content">
-        
-        <p class="form-title">Login</p>
+        <div class="form-container">
+            <% if (locals.error) { %>
+                <p class="error"><%= error %>. Please try again</p>
+            <% } %>
+            <p class="form-title">Login</p>
 
-        <form class="auth-form" method="POST" action="/auth/login">
+            <form class="auth-form" method="POST" action="/auth/login">
 
-            <p class="label">Username :</p>
-            <input class="value" type="text" name="username" required>
-        
-            <p class="label">Email :</p>
-            <input class="value" type="email" name="email" required>
-        
-            <p class="label">Password :</p>
-            <input class="value" type="password" name="password" required>
+                <label class="label">Username</label>
+                <input class="value" type="text" name="username" required>
+            
+                <label class="label">Password</label>
+                <input class="value" type="password" name="password" required>
 
-             <div>
-                <label>Role</label>
-                <select name="role" required>
+                <label class="label">Role</label>
+                <select class="value" name="role" required>
                     <option value="">Select role</option>
                     <option value="USER">User</option>
                     <option value="MODERATOR">Moderator</option>
                     <option value="ADMIN">Admin</option>
                 </select>
-            </div>
-        
-            <button class="btn success" type="submit">Login</button>
-        </form>
+            
+                <button class="btn success" type="submit">Login</button>
+            </form>
 
-        <p>
-            <span id="toggle-text">Don't have an account?</span>
-            <button type="button" class="link-btn" onclick="toggleAuth()">
-                Switch to Signup
-            </button>
-        </p>
+            <p class="toggle-area">
+                <span id="toggle-text">Don't have an account?</span>
+                <button type="button" id="toggle-btn" class="link-btn">
+                    Switch to Signup
+                </button>
+            </p>
+        </div>
     </div>
 
     <div class="footer">
@@ -46,27 +45,24 @@
     </div>
 
 <script>
-    function toggleAuth() {
-        const form = document.querySelector('.auth-form');
-        const title = document.querySelector('.form-title');
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const toggleText = document.getElementById('toggle-text');
-        const toggleBtn = window.event.target;
+    const form = document.querySelector('.auth-form');
+    const title = document.querySelector('.form-title');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const toggleText = document.getElementById('toggle-text');
+    const toggleBtn = document.getElementById('toggle-btn');
 
-        // fade out
+    toggleBtn.addEventListener('click', () => {
         form.classList.add('fade-out');
         form.classList.remove('fade-in');
 
         setTimeout(() => {
             if (form.action.includes('/auth/login')) {
-                // Signup mode
                 form.action = '/auth/signup';
                 title.innerText = 'Signup';
                 submitBtn.innerText = 'Signup';
                 toggleText.innerText = 'Already have an account?';
                 toggleBtn.innerText = 'Switch to Login';
             } else {
-                // Login mode
                 form.action = '/auth/login';
                 title.innerText = 'Login';
                 submitBtn.innerText = 'Login';
@@ -74,11 +70,10 @@
                 toggleBtn.innerText = 'Switch to Signup';
             }
 
-            // fade in
             form.classList.remove('fade-out');
             form.classList.add('fade-in');
         }, 200);
-    }
+    });
 </script>
 </body>
 </html>

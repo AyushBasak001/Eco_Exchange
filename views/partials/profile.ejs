@@ -8,7 +8,6 @@
     <div class="profile-tab">
         <p class="title">User Information</p>
         <p><span class="label">Username :</span> <span class="value"><%= user.username %></span></p>
-        <p><span class="label">Email :</span> <span class="value"><%= user.email %></span></p>
         <p><span class="label">Role :</span> <span class="value"><%= user.role %></span></p>
         <p><span class="label">Active :</span> <span class="value"><%= user.is_active ? 'YES' : 'NO' %></span></p>
         <p><span class="label">Verified :</span> <span class="value"><%= user.is_verified ? 'YES' : 'NO' %></span></p>
@@ -17,13 +16,10 @@
     <div class="profile-tab">
         <p class="title">Address Details</p>
 
-        <form class="address-form" method="POST" action="/user/profile/address">
+        <form class="address-form" method="POST" action="/<%= user.role.toLowerCase() %>/profile/address">
 
             <p class="label">Line 1 :</p>
             <input class="value" type="text" name="line1" value="<%= address.line1 %>">
-        
-            <p class="label">Line 2 :</p>
-            <input class="value" type="text" name="line2" value="<%= address.line2 %>">
         
             <p class="label">City :</p>
             <input class="value" type="text" name="city" value="<%= address.city %>">

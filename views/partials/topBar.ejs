@@ -11,10 +11,15 @@
                     <p class="user-name"><%= locals.user.username %></p>
                     <p class="user-role"><%= locals.user.role %></p>
                 </a>
+            <% } else if (locals.user.role === 'MODERATOR') { %>
+                <a href="/moderator/profile" class="user">
+                    <p class="user-name"><%= locals.user.username %></p>
+                    <p class="user-role"><%= locals.user.role %></p>
+                </a>
             <% } else if (locals.user.role === 'ADMIN') { %>
                 <a href="/admin/profile" class="user">
                     <p class="user-name"><%= locals.user.username %></p>
-                    <p class="user-role">ADMIN</p>
+                    <p class="user-role"><%= locals.user.role %></p>
                 </a>
             <% } %>
 

@@ -8,17 +8,15 @@ export const renderMarketplace = async (req, res) => {
                 p.title,
                 p.price,
                 p.quantity_available,
-                u.username AS seller_name,
-                ARRAY_AGG(pi.image_url) AS images
+                u.username AS seller_name
             FROM product p
             JOIN users u ON p.seller_id = u.id
-            LEFT JOIN product_image pi ON p.id = pi.product_id
             WHERE p.status = 'APPROVED'
             GROUP BY p.id, u.username
             ORDER BY p.created_at DESC
         `);
 
-        return res.status(200).render("userMarketplace", { products });
+        return res.status(200).render("user/userMarketplace.ejs", { products });
 
   } catch (err) {
     console.error("GET /user/marketplace error:", err.message);
@@ -45,11 +43,7 @@ export const renderSellPage = async (req, res) => {
             "SELECT id, name FROM category ORDER BY name"
         );
 
-        const { rows: wasteTypes } = await db.query(
-            "SELECT id, name FROM waste_type ORDER BY name"
-        );
-
-        return res.status(200).render("userSell", { categories, wasteTypes, products });
+        return res.status(200).render("user/userSell.ejs", { categories, products });
     } catch (err) {
         console.error("GET /user/sell error:", err.message);
         return res.status(500).send("Failed to load sell page");
@@ -104,7 +98,7 @@ export const renderUserOrders = async (req, res) => {
             ORDER BY o.created_at DESC
         `, [userId]);
 
-        return res.status(200).render("userOrders", {
+        return res.status(200).render("user/userOrders.ejs", {
             boughtOrders,
             soldOrders
         });
@@ -120,7 +114,7 @@ export const renderUserProfile = async (req, res) => {
         const userId = req.user.id;
 
         const { rows: userRows } = await db.query(
-            "SELECT id, username, email, role, is_active, is_verified FROM users WHERE id = $1",
+            "SELECT id, username, role, is_active, is_verified FROM users WHERE id = $1",
             [userId]
         );
 
@@ -129,20 +123,9 @@ export const renderUserProfile = async (req, res) => {
             [userId]
         );
 
-        const { rows: products } = await db.query(
-            `
-            SELECT id, title, status, quantity_available
-            FROM product
-            WHERE seller_id = $1
-            ORDER BY created_at DESC
-            `,
-            [userId]
-        );
-
-        return res.status(200).render("userProfile.ejs", {
+        return res.status(200).render("user/userProfile.ejs", {
             user: userRows[0],
             address: addressRows[0],
-            products
         });
     } catch (err) {
         console.error("GET /user/profile error:", err.message);
@@ -154,19 +137,18 @@ export const editUserAddress = async (req, res) => {
     try {
         const userId = req.user.id;
         // Destructure all possible fields from req.body
-        const { line1, line2, city, state, pincode, phone } = req.body;
+        const { line1, city, state, pincode, phone } = req.body;
 
         await db.query(
             `UPDATE address 
              SET 
                 line1   = COALESCE($1, line1),
-                line2   = COALESCE($2, line2),
-                city    = COALESCE($3, city),
-                state   = COALESCE($4, state),
-                pincode = COALESCE($5, pincode),
-                phone   = COALESCE($6, phone)
-             WHERE user_id = $7`,
-            [line1, line2, city, state, pincode, phone, userId]
+                city    = COALESCE($2, city),
+                state   = COALESCE($3, state),
+                pincode = COALESCE($4, pincode),
+                phone   = COALESCE($5, phone)
+             WHERE user_id = $6`,
+            [line1, city, state, pincode, phone, userId]
         );
 
         return res.status(200).redirect("/user/profile");
@@ -184,11 +166,11 @@ export const sellNewProduct = async (req, res) => {
 
         const result = await db.query(
             `INSERT INTO product 
-                (seller_id, title, description, price, quantity_available, category_id, waste_type_id, status, created_at)
+                (seller_id, title, description, price, quantity_available, category_id, status, created_at)
              VALUES 
-                ($1, $2, $3, $4, $5, $6, $7, 'APPROVED', NOW())
+                ($1, $2, $3, $4, $5, $6, 'APPROVED', NOW())
              RETURNING id`,
-            [userId, title, description, price, quantity_available, category_id, waste_type_id]
+            [userId, title, description, price, quantity_available, category_id]
         );
 
         return res.status(201).redirect("/user/sell");

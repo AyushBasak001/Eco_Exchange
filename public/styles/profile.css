@@ -58,6 +58,7 @@
     padding: 5px;
     margin: 10px;
     font-weight: bold;
+    cursor: pointer;
 }
 
 .address-form button.btn:hover{
