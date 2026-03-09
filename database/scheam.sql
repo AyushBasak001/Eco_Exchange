@@ -39,7 +39,7 @@ CREATE TABLE product (
     description TEXT,
     price NUMERIC(10,2) NOT NULL CHECK (price >= 0),
     quantity_available INTEGER NOT NULL CHECK (quantity_available >= 0),
-    status VARCHAR(20) CHECK (status IN ('DRAFT', 'PENDING', 'APPROVED', 'SOLD', 'REMOVED')),
+    status VARCHAR(20) CHECK (status IN ('PENDING', 'APPROVED', 'SOLD', 'REMOVED')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     approved_by INTEGER,
 

@@ -1,4 +1,4 @@
-<%- include('../partials/htmlHead.ejs', {pageCss: "/styles/userSales.css"}) %>  
+<%- include('../partials/htmlHead.ejs', {pageCss: "/styles/user/userSales.css"}) %>  
 
 
 <body>
@@ -11,149 +11,114 @@
     </div>
 
     <div class="main-content">
-        <!-- ================= SELL HEADER ================= -->
-        <header class="sell-header">
-            <div class="container">
-                <h1 class="sell-title">Sell Products</h1>
-                <p class="sell-subtitle">Manage your listings and add new products</p>
-            </div>
-        </header>
 
-        <main class="sell-section">
-            <div class="container">
+        <!-- ===== NEW PRODUCT ===== -->
+        <div class="section">
 
-                <!-- ================= MY PRODUCTS ================= -->
-                <section class="sell-card">
-                    <h2 class="card-title">My Products</h2>
+            <h2>Sell New Product</h2>
 
-                    <!-- ===== ACTIVE PRODUCTS ===== -->
-                    <h3 class="sub-heading">Active Products</h3>
+            <form class="sell-form" method="POST" action="/user/sell/new">
 
-                    <% const activeProducts = products.filter(p =>
-                        p.status !== 'REMOVED' && p.quantity_available > 0
-                    ); %>
+                <div class="form-grid">
 
-                    <% if (activeProducts.length === 0) { %>
-                        <p class="empty-state">No active products.</p>
-                    <% } %>
+                    <div class="left">
+                        <label>Title</label>
+                        <input type="text" name="title" required>
 
-                    <% activeProducts.forEach(p => { %>
-                        <div class="seller-product-row">
+                        <label>Description</label>
+                        <textarea id="desc" name="description" rows="4" placeholder="Describe the product condition, usage, defects, etc." required></textarea>
+                    </div>
 
-                            <div class="product-info">
-                                <strong><%= p.title %></strong>
-                                <span>Status: <%= p.status %></span>
-                                <span>Qty: <%= p.quantity_available %></span>
-                            </div>
+                    <div class="right">
+                        <label>Category</label>
+                        <select name="category_id" required>
+                            <option value="">Select category</option>
+                            <% categories.forEach(element => { %>
+                                <option value="<%= element.id %>"><%= element.name %></option>
+                            <% }) %>
+                        </select>
 
-                            <div class="product-actions">
-                                <form action="/user/sell/<%= p.id %>/restock" method="POST">
-                                    <input type="number" name="quantity" min="1" required>
-                                    <button class="btn success" type="submit">Add Stock</button>
-                                </form>
+                        <label>Price</label>
+                        <input type="number" min="1" name="price" required>
 
-                                <form action="/user/sell/<%= p.id %>/remove" method="POST">
-                                    <button class="btn danger" type="submit">Remove</button>
-                                </form>
-                            </div>
+                        <label>Quantity</label>
+                        <input type="number" min="1" name="quantity_available" required>
+                    </div>
 
-                        </div>
-                    <% }) %>
+                </div>
 
-                    <!-- ===== OUT OF STOCK ===== -->
-                    <h3 class="sub-heading">Out of Stock</h3>
+                <button type="submit" class="post-btn">Post Product</button>
 
-                    <% const outOfStockProducts = products.filter(p =>
-                        p.status !== 'REMOVED' && p.quantity_available === 0
-                    ); %>
+            </form>
 
-                    <% if (outOfStockProducts.length === 0) { %>
-                        <p class="empty-state">No out-of-stock products.</p>
-                    <% } %>
+        </div>
 
-                    <% outOfStockProducts.forEach(p => { %>
-                        <div class="seller-product-row out-of-stock">
 
-                            <div class="product-info">
-                                <strong><%= p.title %></strong>
-                                <span>Status: <%= p.status %></span>
-                                <span>Qty: 0</span>
-                            </div>
 
-                            <div class="product-actions">
-                                <form action="/user/sell/<%= p.id %>/restock" method="POST">
-                                    <input type="number" name="quantity" min="1" required>
-                                    <button class="btn success" type="submit">Restock</button>
-                                </form>
+        <!-- ===== PRODUCT LIST ===== -->
+        <div class="section">
 
-                                <form action="/user/sell/<%= p.id %>/remove" method="POST">
-                                    <button class="btn danger" type="submit">Remove</button>
-                                </form>
-                            </div>
+            <h2>Your Products</h2>
 
-                        </div>
-                    <% }) %>
+            <table class="products-table">
 
-                    <!-- ===== REMOVED ===== -->
-                    <h3 class="sub-heading">Removed Products</h3>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Status</th>
+                        <th>Available</th>
+                        <th>Price</th>
+                        <th>Restock</th>
+                        <th>Remove</th>
+                    </tr>
+                </thead>
 
-                    <% const removedProducts = products.filter(p => p.status === 'REMOVED'); %>
+                <tbody>
 
-                    <% if (removedProducts.length === 0) { %>
-                        <p class="empty-state">No removed products.</p>
-                    <% } %>
+                <% products.forEach(element => { %>
 
-                    <% removedProducts.forEach(p => { %>
-                        <div class="seller-product-row removed">
-                            <strong><%= p.title %></strong>
-                            <span>Status: REMOVED</span>
-                        </div>
-                    <% }) %>
+                    <tr>
+                        <td><%= element.title %></td>
+                        <td><%= element.category_name %></td>
+                        <td><%= element.status %></td>
+                        <td><%= element.quantity_available %></td>
+                        <td>₹ <%= element.price %></td>
 
-                </section>
+                        <td>
+                            <form method="POST" action="/user/sell/<%= element.id %>/restock">
+                                <input type="number" min="0" name="quantity" required>
+                                <button type="submit">Add</button>
+                            </form>
+                        </td>
 
-                <!-- ================= ADD PRODUCT ================= -->
-                <section class="sell-card">
-                    <h2 class="card-title">Sell a Product</h2>
+                        <td>
+                            <% if(element.status === 'REMOVED'){ %>
 
-                    <form class="sell-form" action="/user/sell/new" method="POST">
+                            <form method="POST" action="/user/sell/<%= element.id %>/relist">
+                                <button class="relist-btn" type="submit">Relist</button>
+                            </form>
 
-                        <div class="form-group">
-                            <label>Title</label>
-                            <input type="text" name="title" required>
-                        </div>
+                            <% } else { %>
 
-                        <div class="form-group">
-                            <label>Description</label>
-                            <textarea name="description"></textarea>
-                        </div>
+                            <form method="POST" action="/user/sell/<%= element.id %>/remove">
+                                <button class="remove-btn" type="submit">Remove</button>
+                            </form>
 
-                        <div class="form-group">
-                            <label>Category</label>
-                            <select name="category_id" required>
-                                <option value="">Select Category</option>
-                                <% categories.forEach(c => { %>
-                                    <option value="<%= c.id %>"><%= c.name %></option>
-                                <% }) %>
-                            </select>
-                        </div>
+                            <% } %>
+                        </td>
 
-                        <div class="form-group">
-                            <label>Price (₹)</label>
-                            <input type="number" name="price" step="0.01" min="0" required>
-                        </div>
+                        
+                    </tr>
 
-                        <div class="form-group">
-                            <label>Quantity</label>
-                            <input type="number" name="quantity_available" min="1" required>
-                        </div>
+                <% }) %>
 
-                        <button class="btn success" type="submit">Submit Product</button>
-                    </form>
-                </section>
+                </tbody>
 
-            </div>
-        </main>
+            </table>
+
+        </div>
+
     </div>
 
     <div class="footer">

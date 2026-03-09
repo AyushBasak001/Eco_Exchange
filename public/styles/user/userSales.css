@@ -1,0 +1,148 @@
+.main-content{
+    padding:40px;
+    min-width: 70%;
+    margin: 0 auto;
+}
+
+
+/* SECTION */
+
+.section{
+    margin-bottom:50px;
+}
+
+h2{
+    margin-bottom:20px;
+}
+
+
+
+/* SELL FORM */
+
+.sell-form{
+    background:var(--background-1);
+    padding:25px;
+    border-radius:8px;
+    border:1px solid var(--background-3);
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:30px;
+}
+
+.left,
+.right{
+    display:flex;
+    flex-direction:column;
+}
+
+label{
+    margin-top:10px;
+    margin-bottom:4px;
+    font-weight:600;
+}
+
+input,
+select{
+    padding:8px;
+    border:1px solid var(--background-4);
+    border-radius:4px;
+}
+
+#desc{
+    height: 100%;
+}
+
+textarea{
+    padding:8px;
+    border:1px solid var(--background-4);
+    border-radius:4px;
+    resize:vertical;
+    font-family:inherit;
+}
+
+.post-btn{
+    margin-top:25px;
+    padding:12px;
+    width:100%;
+    border:none;
+    background-color: var(--background-3);
+    color: var(--text-1);
+    border-radius:6px;
+    cursor:pointer;
+    font-weight: bold;
+    font-size: large;
+}
+
+.post-btn:hover{
+    background-color: var(--background-2);
+    color: var(--text-2);
+}
+
+
+
+/* TABLE */
+
+.products-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.products-table th,
+.products-table td{
+    padding:12px;
+    border:1px solid var(--background-3);
+    text-align:center;
+}
+
+.products-table th{
+    background: var(--background-2);
+}
+
+.products-table td{
+    background: var(--background-1);
+}
+
+
+/* RESTOCK */
+
+.products-table input{
+    width:60px;
+    padding:5px;
+}
+
+.products-table button{
+    padding:6px 10px;
+    border:none;
+    background:#1976d2;
+    color: var(--background-5);;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+.products-table button:hover{
+    background:#125aa0;
+}
+
+
+/* REMOVE */
+
+.remove-btn{
+    background:#d32f2f !important;
+}
+
+.remove-btn:hover{
+    background:#a32222 !important;
+}
+
+/* RELIST */
+
+.relist-btn{
+    background:#2e7d32 !important;
+}
+
+.relist-btn:hover{
+    background:#256628 !important;
+}

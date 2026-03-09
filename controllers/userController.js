@@ -31,8 +31,9 @@ export const renderSellPage = async (req, res) => {
 
         const { rows: products } = await db.query(
             `
-            SELECT id, title, status, quantity_available
-            FROM product
+            SELECT p.id, title, c.name category_name, status, price, quantity_available
+            FROM product p
+            JOIN category c ON p.category_id = c.id
             WHERE seller_id = $1
             ORDER BY created_at DESC
             `,
@@ -162,13 +163,13 @@ export const editUserAddress = async (req, res) => {
 export const sellNewProduct = async (req, res) => {
     try {
         const userId = req.user.id;
-        const { title, description, price, quantity_available, category_id, waste_type_id } = req.body;
+        const { title, description, price, quantity_available, category_id} = req.body;
 
         const result = await db.query(
             `INSERT INTO product 
                 (seller_id, title, description, price, quantity_available, category_id, status, created_at)
              VALUES 
-                ($1, $2, $3, $4, $5, $6, 'APPROVED', NOW())
+                ($1, $2, $3, $4, $5, $6, 'PENDING', NOW())
              RETURNING id`,
             [userId, title, description, price, quantity_available, category_id]
         );
@@ -435,7 +436,7 @@ export const removeProduct = async (req, res) => {
 
         // Idempotent remove
         if (product.status === 'REMOVED') {
-            return res.redirect("/sell");
+            return res.redirect("/user/sell");
         }
 
         await db.query(`
@@ -449,5 +450,47 @@ export const removeProduct = async (req, res) => {
     } catch (err) {
         console.error("Remove product error:", err.message);
         res.status(500).send("Failed to remove product");
+    }
+};
+
+export const relistProduct = async (req, res) => {
+    try {
+        const sellerId = req.user.id;
+        const productId = req.params.productId;
+
+        // Fetch product
+        const { rows } = await db.query(`
+            SELECT id, seller_id, status
+            FROM product
+            WHERE id = $1
+        `, [productId]);
+
+        if (rows.length === 0) {
+            return res.status(404).send("Product not found");
+        }
+
+        const product = rows[0];
+
+        // Authorization
+        if (product.seller_id !== sellerId) {
+            return res.status(403).send("Not authorized");
+        }
+
+        // Idempotent remove
+        if (product.status !== 'REMOVED') {
+            return res.redirect("/user/sell");
+        }
+
+        await db.query(`
+            UPDATE product
+            SET status = 'PENDING'
+            WHERE id = $1
+        `, [productId]);
+
+        return res.redirect("/user/sell");
+
+    } catch (err) {
+        console.error("Relist product error:", err.message);
+        res.status(500).send("Failed to relist product");
     }
 };
