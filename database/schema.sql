@@ -27,7 +27,7 @@ CREATE TABLE address (
 CREATE TABLE category (
     id SERIAL PRIMARY KEY,
     name VARCHAR(50) NOT NULL UNIQUE,
-    image_url TEXT
+    icon VARCHAR(10) NOT NULL
 );
 
 
@@ -59,43 +59,19 @@ CREATE TABLE product (
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
     buyer_id INTEGER NOT NULL,
-    seller_id INTEGER NOT NULL,
-    delivery_address_id INTEGER NOT NULL,
-    order_status VARCHAR(20) CHECK (
-        order_status IN ('PLACED', 'CONFIRMED', 'SHIPPED', 'COMPLETED', 'CANCELLED')
-    ),
-    total_amount NUMERIC(10,2) NOT NULL CHECK (total_amount >= 0),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_order_buyer
-        FOREIGN KEY (buyer_id)
-        REFERENCES users(id),
-
-    CONSTRAINT fk_order_seller
-        FOREIGN KEY (seller_id)
-        REFERENCES users(id),
-
-    CONSTRAINT fk_order_address
-        FOREIGN KEY (delivery_address_id)
-        REFERENCES address(user_id)
-);
-
-
-CREATE TABLE order_item (
-    id SERIAL PRIMARY KEY,
-    order_id INTEGER NOT NULL,
     product_id INTEGER NOT NULL,
     quantity INTEGER NOT NULL CHECK (quantity > 0),
     price_at_purchase NUMERIC(10,2) NOT NULL CHECK (price_at_purchase >= 0),
 
-    CONSTRAINT fk_item_order
-        FOREIGN KEY (order_id)
-        REFERENCES orders(id)
-        ON DELETE CASCADE,
+    order_status VARCHAR(20) CHECK (
+        order_status IN ('PLACED', 'CONFIRMED', 'SHIPPED', 'COMPLETED', 'CANCELLED')
+    ),
 
-    CONSTRAINT fk_item_product
-        FOREIGN KEY (product_id)
-        REFERENCES product(id)
+    total_amount NUMERIC(10,2) NOT NULL CHECK (total_amount >= 0),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (buyer_id) REFERENCES users(id),
+    FOREIGN KEY (product_id) REFERENCES product(id)
 );
 
 

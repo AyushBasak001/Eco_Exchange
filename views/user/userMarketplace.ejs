@@ -1,4 +1,4 @@
-<%- include('../partials/htmlHead.ejs') %>
+<%- include('../partials/htmlHead.ejs', {pageCss: "/styles/user/userMarketplace.css"}) %>  
 
 <body>
     <div class="top-bar">
@@ -10,87 +10,43 @@
     </div>
 
     <div class="main-content">
-        <!-- ================= HEADER ================= -->
-        <header class="marketplace-header">
+        <!-- ================= HERO SECTION ================= -->
+        <section class="marketplace-hero">
             <div class="container">
-                <h1 class="marketplace-title">Eco-Exchange Marketplace</h1>
-                <p class="marketplace-subtitle">
-                    Buy and sell recyclable materials responsibly 🌱
+                <h1>Campus Marketplace</h1>
+                <p>
+                    Buy and sell items within your community. Find affordable essentials, gadgets, books, and more from trusted sellers.
                 </p>
-            </div>
-        </header>
-
-        <!-- ================= INFO STRIP ================= -->
-        <section class="info-strip">
-            <div class="container info-grid">
-                <div class="info-card">
-                    <h3>♻ Sustainable Trade</h3>
-                    <p>Every purchase supports eco-friendly waste reuse.</p>
-                </div>
-                <div class="info-card">
-                    <h3>🤝 Trusted Sellers</h3>
-                    <p>Verified users ensuring transparent transactions.</p>
-                </div>
-                <div class="info-card">
-                    <h3>📦 Real-Time Stock</h3>
-                    <p>Live quantity updates for fair purchasing.</p>
-                </div>
             </div>
         </section>
 
-        <!-- ================= MARKETPLACE ================= -->
-        <main class="marketplace-section">
-            <div class="container">
 
-                <h2 class="section-heading">Available Products</h2>
+        <!-- ================= CATEGORY SECTION ================= -->
+        <section class="marketplace-categories">
 
-                <div class="product-grid">
-                    <% products.forEach(product => { %>
-                        <div class="product-card">
-
-                            <div class="product-header">
-                                <h3 class="product-title"><%= product.title %></h3>
-                                <span class="product-price">₹ <%= product.price %></span>
-                            </div>
-
-                            <div class="product-meta">
-                                <p class="product-seller">
-                                    Seller: <strong><%= product.seller_name %></strong>
-                                </p>
-                                <p class="product-quantity">
-                                    Available: <%= product.quantity_available %>
-                                </p>
-                            </div>
-
-                            <% if (product.quantity_available > 0) { %>
-                                <form class="buy-form" action="/user/orders/create" method="POST">
-                                    <input type="hidden" name="product_id" value="<%= product.id %>">
-
-                                    <input
-                                        class="quantity-input"
-                                        type="number"
-                                        name="quantity"
-                                        min="1"
-                                        max="<%= product.quantity_available %>"
-                                        placeholder="Qty"
-                                        required
-                                    >
-
-                                    <button class="buy-btn" type="submit">
-                                        Buy Now
-                                    </button>
-                                </form>
-                            <% } else { %>
-                                <p class="sold-out-badge">Sold Out</p>
-                            <% } %>
-
-                        </div>
-                    <% }) %>
-                </div>
-
+            <div class="category-header">
+                <h2>Browse Categories</h2>
+                <p>Find items from different categories in the campus marketplace</p>
             </div>
-        </main>
 
+            <div class="category-grid">
+                <% categories.forEach(category => { %>
+
+                    <a class="category-card" href="/user/marketplace/category/<%= category.id %>">
+                        <div class="category-icon">
+                            <%= category.icon %>
+                        </div>
+
+                        <div class="category-text">
+                            <h3>
+                                <%= category.name.charAt(0).toUpperCase() + category.name.slice(1) %>
+                            </h3>
+                            <p>Browse listings</p>
+                        </div>
+                    </a>
+                <% }) %>
+            </div>
+        </section>
     </div>
 
     <div class="footer">

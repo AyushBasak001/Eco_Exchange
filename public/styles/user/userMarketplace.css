@@ -1,0 +1,207 @@
+/* ================= HERO SECTION ================= */
+
+.marketplace-hero{
+    background:var(--background-1);
+
+    padding:50px 30px;
+    border-radius:14px;
+
+    max-width: 70%;
+    margin: 30px auto;
+
+    text-align:center;
+}
+
+.marketplace-hero h1{
+    font-size: xx-large;
+    margin-bottom:10px;
+    font-weight:600;
+    color:var(--text-2);
+}
+
+.marketplace-hero p{
+    line-height:1.6;
+    font-size:medium;
+    color:var(--text-3);
+}
+
+
+
+/* ================= CATEGORY SECTION ================= */
+
+.marketplace-categories{
+    background:var(--background-1);
+    padding:30px;
+    padding-bottom: 100px;
+    border-radius:14px;
+    max-width: 70%;
+    margin: 0 auto;
+}
+
+
+/* ================= CATEGORY HEADER ================= */
+
+.category-header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.category-header h2{
+    font-size: x-large;
+    color: var(--text-2);
+    margin-bottom:0;
+    font-weight:600;
+}
+
+.category-header p{
+    color:var(--text-3);
+    font-size:medium;
+}
+
+
+/* ================= CATEGORY GRID ================= */
+
+.category-grid{
+
+
+    display:grid;
+    max-width: fit-content;
+    margin: 0 auto;
+
+    grid-template-columns:1fr 1fr 1fr;
+
+    gap:30px;
+}
+
+
+
+/* ================= CATEGORY CARD ================= */
+
+.category-card{
+    display:flex;
+    align-items:center;
+    gap:16px;
+    max-width: 250px;
+
+    padding:18px 20px;
+
+    background:var(--background-5);
+    border-radius:12px;
+
+    text-decoration:none;
+    color:#222;
+
+    transition:all 0.2s ease;
+
+    border:1px solid transparent;
+}
+
+.category-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    background:var(--background-2);
+}
+
+
+
+/* ================= CATEGORY ICON ================= */
+
+.category-icon{
+    font-size:34px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    width:55px;
+    height:55px;
+
+    background:#eef2ff;
+
+    border-radius:12px;
+}
+
+
+
+/* ================= CATEGORY TEXT ================= */
+
+.category-text h3{
+    margin:0;
+    font-size:16px;
+    font-weight:600;
+}
+
+.category-text p{
+    margin-top:3px;
+    font-size:13px;
+    color:#666;
+}
+
+/* TABLE */
+
+.unavailable {
+    color: red;
+    text-align: center;
+    font-size: large;
+}
+
+.products-table{
+    width:100%;
+    border-collapse:collapse;
+}
+
+.products-table th,
+.products-table td{
+    padding:12px;
+    border:1px solid var(--background-3);
+    text-align:center;
+}
+
+.products-table th{
+    background: var(--background-2);
+}
+
+.products-table td{
+    background: var(--background-1);
+}
+
+.products-table input{
+    width:60px;
+    padding:5px;
+}
+
+.products-table button{
+    padding:6px 10px;
+    border:none;
+    background:#1976d2;
+    color: var(--background-5);;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+.products-table button:hover{
+    background:#125aa0;
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width:768px){
+
+    .main-content{
+        padding:20px;
+    }
+
+    .marketplace-hero{
+        padding:35px 25px;
+    }
+
+    .marketplace-hero h1{
+        font-size:28px;
+    }
+
+    .category-grid{
+        grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+    }
+
+}

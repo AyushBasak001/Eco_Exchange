@@ -1,0 +1,65 @@
+<%- include('../partials/htmlHead.ejs', {pageCss: "/styles/user/userMarketplace.css"}) %>  
+
+<body>
+    <div class="top-bar">
+        <%- include('../partials/topBar.ejs') %>
+    </div>
+
+    <div class="side-bar">
+        <%- include('../partials/userSidebar.ejs') %>
+    </div>
+
+    <div class="main-content">
+        <!-- ================= CATEGORY SECTION ================= -->
+        <section class="marketplace-categories">
+
+            <div class="category-header">
+                <h2><%= categoryName %></h2>
+            </div>
+
+            <% if (products.length === 0) { %>
+                 <p class="unavailable">No Product available.</p>
+            <% }  else { %>
+                <table class="products-table">
+
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Qty Available</th>
+                            <th>Price</th>
+                            <th>Place Order</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+
+                    <% products.forEach(element => { %>
+
+                        <tr>
+                            <td><%= element.title %></td>
+                            <td><%= element.description %></td>
+                            <td><%= element.quantity_available %></td>
+                            <td>₹ <%= element.price %></td>
+
+                            <td>
+                                <form method="POST" action="/user/order/<%= element.id %>/placeOrder">
+                                    <input type="number" min="0" max="<%=  element.quantity_available %>" name="quantity" required>
+                                    <button type="submit">Place Order</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                    </tbody>
+                </table>
+
+            <% } %>
+
+        </section>
+    </div>
+
+    <div class="footer">
+        <%- include('../partials/footer.ejs') %>
+    </div>
+</body>
+</html>
