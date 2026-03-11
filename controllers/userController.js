@@ -77,7 +77,51 @@ export const renderUserOrders = async (req, res) => {
     try {
         const userId = req.user.id;
 
-        return res.status(200).render("user/userOrders.ejs");
+        // Orders the user bought
+        const { rows: bought } = await db.query(`
+            SELECT 
+                o.id AS order_id,
+                o.seller_id,
+                o.product_id,
+                o.quantity,
+                o.price_at_purchase,
+                o.total_amount,
+                o.status,
+                o.created_at,
+                p.title,
+                c.name AS category_name,
+                u.username
+            FROM orders o
+            JOIN product p ON o.product_id = p.id
+            JOIN category c ON p.category_id = c.id
+            JOIN users u ON o.seller_id = u.id
+            WHERE o.buyer_id = $1
+            ORDER BY o.created_at DESC
+        `, [userId]);
+
+        // Orders the user sold
+        const { rows: sold } = await db.query(`
+            SELECT 
+                o.id AS order_id,
+                o.buyer_id,
+                o.product_id,
+                o.quantity,
+                o.price_at_purchase,
+                o.total_amount,
+                o.status,
+                o.created_at,
+                p.title,
+                c.name AS category_name,
+                u.username
+            FROM orders o
+            JOIN product p ON o.product_id = p.id
+            JOIN category c ON p.category_id = c.id
+            JOIN users u ON o.buyer_id = u.id
+            WHERE p.seller_id = $1
+            ORDER BY o.created_at DESC
+        `, [userId]);
+
+        res.status(200).render("user/userOrders.ejs", {bought, sold});
 
     } catch (err) {
         console.error("GET /user/orders error:", err.message);
@@ -322,12 +366,9 @@ export const placeOrder = async (req, res) => {
 
         // Inserting into order table
         await db.query(
-            `INSERT INTO orders 
-                (buyer_id, product_id, quantity, price_at_purchase, order_status, total_amount)
-             VALUES 
-                ($1, $2, $3, $4, $5, $6)
-             RETURNING id`,
-            [buyerId, productId, quantity, product.price, 'PLACED', amount]
+            `INSERT INTO orders (buyer_id, seller_id, product_id, quantity, price_at_purchase, status, total_amount)
+             VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+            [buyerId, product.seller_id, productId, quantity, product.price, 'PLACED', amount]
         );
 
         return res.redirect("/user/orders");
@@ -335,5 +376,50 @@ export const placeOrder = async (req, res) => {
     } catch (err) {
         console.error("Order placement error:", err.message);
         res.status(500).send("Failed to place order");
+    }
+};
+
+export const cancelOrder = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const orderId = req.params.orderId;
+        const userType = req.params.userType;
+
+        // Fetch order
+        const { rows } = await db.query(`
+            SELECT id, buyer_id, seller_id, status
+            FROM orders
+            WHERE id = $1
+        `, [orderId]);
+
+        if (rows.length === 0) {
+            return res.status(404).send("Order not found");
+        }
+
+        const order = rows[0];
+
+        // Authorization
+        if ((userType === 1 && order.buyer_id !== userId) || 
+            (userType === 0 && order.seller_id !== userId)) 
+        {
+            return res.status(403).send("Not authorized");
+        }
+
+        // Idempotent remove
+        if (order.status === 'CANCELLED' || order.status === 'COMPLETED') {
+            return res.redirect("/user/orders");
+        }
+
+        await db.query(`
+            UPDATE orders
+            SET status = 'CANCELLED'
+            WHERE id = $1
+        `, [orderId]);
+
+        return res.redirect("/user/orders");
+
+    } catch (err) {
+        console.error("Cancel order error:", err.message);
+        res.status(500).send("Failed to cancel order");
     }
 };

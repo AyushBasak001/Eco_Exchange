@@ -59,18 +59,16 @@ CREATE TABLE product (
 CREATE TABLE orders (
     id SERIAL PRIMARY KEY,
     buyer_id INTEGER NOT NULL,
+    seller_id INTEGER NOT NULL,
     product_id INTEGER NOT NULL,
     quantity INTEGER NOT NULL CHECK (quantity > 0),
     price_at_purchase NUMERIC(10,2) NOT NULL CHECK (price_at_purchase >= 0),
-
-    order_status VARCHAR(20) CHECK (
-        order_status IN ('PLACED', 'CONFIRMED', 'SHIPPED', 'COMPLETED', 'CANCELLED')
-    ),
-
     total_amount NUMERIC(10,2) NOT NULL CHECK (total_amount >= 0),
+    status VARCHAR(20) CHECK (status IN ('PLACED', 'CONFIRMED', 'SHIPPED', 'COMPLETED', 'CANCELLED')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (buyer_id) REFERENCES users(id),
+    FOREIGN KEY (seller_id) REFERENCES users(id),
     FOREIGN KEY (product_id) REFERENCES product(id)
 );
 
@@ -105,6 +103,7 @@ CREATE TABLE review (
     CONSTRAINT fk_review_order
         FOREIGN KEY (order_id)
         REFERENCES orders(id)
+                p.id AS product_id,
         ON DELETE CASCADE,
 
     CONSTRAINT fk_review_user

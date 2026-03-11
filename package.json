@@ -1,14 +1,14 @@
 {
-  "name": "eco-exchange",
+  "name": "trade-nest",
   "version": "1.0.0",
   "description": "",
-  "homepage": "https://github.com/AyushBasak001/Eco_Exchange#readme",
+  "homepage": "https://github.com/AyushBasak001/TradeNest#readme",
   "bugs": {
-    "url": "https://github.com/AyushBasak001/Eco_Exchange/issues"
+    "url": "https://github.com/AyushBasak001/TradeNest/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AyushBasak001/Eco_Exchange.git"
+    "url": "git+https://github.com/AyushBasak001/TradeNest.git"
   },
   "license": "ISC",
   "author": "",

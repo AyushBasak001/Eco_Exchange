@@ -1,92 +1,62 @@
-.home-section{
-    background-color: var(--background-1);
+.extended-content section{
+    background:var(--background-1);
 
-    max-width: 75%;
-    margin: 10px auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    padding:20px 30px;
+    border-radius:14px;
 
-    border-radius: 20px;
-    
+    max-width: 70%;
+    margin: 30px auto;
+
+    text-align:center;
 }
 
-.home-section > .title {
-    color: var(--text-3);
-    font-size: x-large;
-    font-weight: bolder;
-    margin: 10px;
-    text-align: center;
+.extended-content section:hover{
+    transform:translateY(-4px);
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    background:var(--background-5);
 }
 
-.home-section > .details {
-    color: var(--text-2);
-    font-size: large;
-    margin: 10px;
-
-    max-width: 60%;
-    text-align: center;
-}
-
-.home-section > .container {
-    width: 100%;
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-}
-
-.home-section > .container > .tab {
-    max-width: 15rem;
-    background-color: var(--background-2);
-    padding: 10px;
-    margin: 10px;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-}
-
-.home-working > .container > .tab > .heading {
-    color: var(--text-1);
-
-    font-size: large;
-    font-weight: bold;
-
-    margin: 0px;
-}
-
-.home-working > .container > .tab > .sub-heading {
-    color: var(--text-2);
-
-    margin: 5px;
-}
-
-.home-categories > .container > .tab{
-    color: var(--text-2);
-
-    font-size: large;
-    font-weight: bold;
-}
-
-.home-cta > .title {
-    margin: 5px;
-}
-
-.home-cta a {
+a {
     all: unset;
+
+    margin-top: 20px;
 
     background-color: var(--background-3);
     color: var(--text-1);
+    border-radius: 5px;
     padding: 10px;
-    margin: 5px;
-    border-radius: 10px;
-
+    margin: 10px;
     font-weight: bold;
-
     cursor: pointer;
 }
-
-.home-cta a:hover{
+a:hover{
     background-color: var(--background-2);
     color: var(--text-2);
+}
+
+.steps{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+}
+
+.step{
+    background-color: var(--background-2);
+    border-radius: 15px;
+    width: 90%;
+    margin: 3% auto;
+}
+
+.category-grid{
+    display: flex;
+    justify-content: space-around;
+}
+
+.category-grid > .category{
+    background-color: var(--background-2);
+    padding: 10px;
+    width: 10rem;
+    border-radius: 20px;
+
+    font-style: italic;
 }

@@ -10,7 +10,8 @@ import {
     restockProduct,
     removeProduct,
     relistProduct,
-    placeOrder
+    placeOrder,
+    cancelOrder
 } from '../controllers/userController.js';
 import {authRequired} from '../middlewares/auth.js'
 
@@ -30,5 +31,6 @@ router.post('/sell/:productId/remove', authRequired(['USER']), removeProduct);
 router.post('/sell/:productId/relist', authRequired(['USER']), relistProduct);
 
 router.post('/order/:productId/placeOrder', authRequired(['USER']), placeOrder);
+router.post('/order/:orderId/:userType/cancel', authRequired(['USER']), cancelOrder);
 
 export default router;
