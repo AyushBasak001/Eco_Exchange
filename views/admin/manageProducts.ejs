@@ -1,4 +1,5 @@
-<%- include('../partials/htmlHead.ejs') %>
+<%- include('../partials/htmlHead.ejs', {pageCss: "/styles/admin/manageProducts.css"}) %>  
+
 
 <body>
     <div class="top-bar">
@@ -9,33 +10,51 @@
         <%- include('../partials/adminSidebar.ejs') %>
     </div>
 
-    <div class="main-content">
-        <h1>Manage Products</h1>
-        <p>Verify, disable and view products</p>
+    <div class="main-content">    
+        <div class="product-section">
 
-        <% productList.forEach(product => { %>
+            <div class="section-header">
+                <h2>Product Listing</h2>
+            </div>
 
-            <p>title: <%= product.title %></p>
-            <p>price: <%= product.price %></p>
-            <p>Seller: <%= product.seller_name %></p>
-            <p>Quantity Available: <%= product.quantity_available %></p>
+            <% if (productList.length === 0) { %>
+                    <p class="unavailable">No Product available.</p>
+            <% }  else { %>
+                <table class="products-table">
 
-            <form method="POST" action="/admin/products/<%= product.id %>">
-                <div>
-                    <label>Status</label>
-                    <select name="status" required>
-                        <option value="DRAFT">Draft</option>
-                        <option value="PENDING">Pending</option>
-                        <option value="APPROVED">Approved</option>
-                        <option value="SOLD">Sold</option>
-                        <option value="REMOVED">Removed</option>
-                    </select>
-                </div>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>Qty Available</th>
+                            <th>Seller</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Moderator</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
 
-                <button type="submit">Save Changes</button>
-            </form>
-        <% }) %>
+                    <% productList.forEach(element => { %>
 
+                        <tr>
+                            <td title='<%= element.description %>'><%= element.title %></td>
+                            <td>₹ <%= element.price %></td>
+                            <td><%= element.quantity_available %></td>
+                            <td><%= element.seller %></td>
+                            <td><%= element.category %></td>
+                            <td><%= element.status %></td>
+                            <td><%= element.moderator %></td>
+                        </tr>
+
+                    <% }) %>
+                    </tbody>
+                </table>
+
+            <% } %>
+
+        </div>
     </div>
 
     <div class="footer">

@@ -134,7 +134,7 @@ export const renderUserProfile = async (req, res) => {
         const userId = req.user.id;
 
         const { rows: userRows } = await db.query(
-            "SELECT id, username, role, is_active, is_verified FROM users WHERE id = $1",
+            "SELECT id, username, role FROM users WHERE id = $1",
             [userId]
         );
 
@@ -186,9 +186,9 @@ export const sellNewProduct = async (req, res) => {
 
         const result = await db.query(
             `INSERT INTO product 
-                (seller_id, title, description, price, quantity_available, category_id, status, created_at)
+                (seller_id, title, description, price, quantity_available, category_id, status)
              VALUES 
-                ($1, $2, $3, $4, $5, $6, 'PENDING', NOW())
+                ($1, $2, $3, $4, $5, $6, 'PENDING')
              RETURNING id`,
             [userId, title, description, price, quantity_available, category_id]
         );

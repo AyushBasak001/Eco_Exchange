@@ -3,8 +3,7 @@ CREATE TABLE users (
     username VARCHAR(50) NOT NULL UNIQUE,
     password_hash TEXT NOT NULL,
     role VARCHAR(20) NOT NULL CHECK (role IN ('USER', 'ADMIN', 'MODERATOR')),
-    is_active BOOLEAN DEFAULT TRUE,
-    is_verified BOOLEAN DEFAULT FALSE,
+    is_active BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -41,7 +40,7 @@ CREATE TABLE product (
     quantity_available INTEGER NOT NULL CHECK (quantity_available >= 0),
     status VARCHAR(20) CHECK (status IN ('PENDING', 'APPROVED', 'SOLD', 'REMOVED')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    approved_by INTEGER,
+    moderator INTEGER,
 
     CONSTRAINT fk_product_seller
         FOREIGN KEY (seller_id)
@@ -51,8 +50,8 @@ CREATE TABLE product (
         FOREIGN KEY (category_id)
         REFERENCES category(id),
 
-    CONSTRAINT fk_product_approved_by
-        FOREIGN KEY (approved_by)
+    CONSTRAINT fk_product_moderator
+        FOREIGN KEY (moderator)
         REFERENCES users(id)
 );
 
@@ -81,7 +80,7 @@ CREATE TABLE payment (
         payment_status IN ('PENDING', 'SUCCESS', 'FAILED', 'REFUNDED')
     ),
     transaction_reference VARCHAR(100),
-    paid_at TIMESTAMP,
+    paid_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_payment_order
         FOREIGN KEY (order_id)
@@ -103,7 +102,6 @@ CREATE TABLE review (
     CONSTRAINT fk_review_order
         FOREIGN KEY (order_id)
         REFERENCES orders(id)
-                p.id AS product_id,
         ON DELETE CASCADE,
 
     CONSTRAINT fk_review_user

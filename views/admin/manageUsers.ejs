@@ -1,4 +1,4 @@
-<%- include('../partials/htmlHead.ejs') %>
+<%- include('../partials/htmlHead.ejs', {pageCss: "/styles/admin/manageUsers.css"}) %>  
 
 <body>
     <div class="top-bar">
@@ -10,32 +10,49 @@
     </div>
 
     <div class="main-content">
-        <h1>Manage Users</h1>
-        <p>Verify, disable and view users</p>
+        <!-- ================= USER SECTION ================= -->
+        <section class="user-section">
 
-        <% userList.forEach(user => { %>
+            <div class="user-header">
+                <h2>Mahange Users</h2>
+            </div>
 
-            <p>username: <%= user.username %></p>
-            <p>email: <%= user.email %></p>
-            <p>role: <%= user.role %></p>
+            <% if (userList.length === 0) { %>
+                 <p class="unavailable">No Users available.</p>
+            <% }  else { %>
+                <table class="user-table">
 
-            <form method="POST" action="/admin/users/<%= user.id %>">
-                <div>
-                    <label>Active User</label>
-                    <input type="checkbox" name="is_active"
-                    <%= user.is_active ? "checked" : "" %>>
-                </div>
+                    <thead>
+                        <tr>
+                            <th>User ID</th>
+                            <th>Username</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
 
-                <div>
-                    <label>Verified User</label>
-                    <input type="checkbox" name="is_verified"
-                    <%= user.is_verified ? "checked" : "" %>>
-                </div>
+                    <% userList.forEach(element => { %>
 
-                <button type="submit">Save Changes</button>
-            </form>
-        <% }) %>
+                        <tr>
+                            <td><%= element.id %></td>
+                            <td><%= element.username %></td>
+                            <td><%= element.role %></td>
+                            <td>
+                                <form method="POST" action="/admin/users/<%= element.id %>/status">
+                                    <label class="value"><%= element.is_active ? 'Active' : 'Deactive' %></label>
+                                    <button type="submit"><%= element.is_active ? 'Deactivate' : 'Activate' %></button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                    </tbody>
+                </table>
 
+            <% } %>
+
+        </section>
     </div>
 
     <div class="footer">

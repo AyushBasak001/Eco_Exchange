@@ -14,7 +14,7 @@ export const renderLoginPage = async (req, res) => {
 }
 
 export const login = async (req, res) => {
-    const { username, email, password, role } = req.body;
+    const { username, password, role } = req.body;
 
     const result = await db.query(
         `SELECT id, username, password_hash, role, is_active
@@ -68,10 +68,10 @@ export async function signup(req, res) {
         if (rows[0].count == 1) {
             return res.status(500).render("login.ejs", {error: "Admin already exists" });
         } else {
-            const is_verified = true;
+            const is_active = true;
             const hash = await bcrypt.hash(password, 12);
 
-            await signupQuery(res, username, role, is_verified, hash);
+            await signupQuery(res, username, role, is_active, hash);
         }
 
         } catch (err) {
@@ -80,10 +80,10 @@ export async function signup(req, res) {
         }
     } else {
         
-        const is_verified = role === "USER";
+        const is_active = role === "USER";
         const hash = await bcrypt.hash(password, 12);
 
-        await signupQuery(res, username, role, is_verified, hash);
+        await signupQuery(res, username, role, is_active, hash);
     }
 }
 
@@ -95,7 +95,7 @@ export function logout(req, res) {
 
 //Helper Functions
 
-async function signupQuery(res, username, role, is_verified, hash){
+async function signupQuery(res, username, role, is_active, hash){
     // Using a transaction for atomicity
     const client = await db.connect();
     try {
@@ -103,10 +103,10 @@ async function signupQuery(res, username, role, is_verified, hash){
 
         // 1. Insert User and return the new user_id
         const userRes = await client.query(
-            `INSERT INTO users (username, password_hash, role, is_verified)
+            `INSERT INTO users (username, password_hash, role, is_active)
             VALUES ($1, $2, $3, $4)
             RETURNING id`,
-            [username, hash, role, is_verified]
+            [username, hash, role, is_active]
         );
 
         const newUserId = userRes.rows[0].id;
