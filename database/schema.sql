@@ -85,33 +85,3 @@ CREATE TABLE payment (
         REFERENCES orders(id)
         ON DELETE CASCADE
 );
-
-
-CREATE TABLE review (
-    id SERIAL PRIMARY KEY,
-    order_id INTEGER NOT NULL,
-    reviewer_id INTEGER NOT NULL,
-    product_id INTEGER NOT NULL,
-    seller_id INTEGER NOT NULL,
-    rating INTEGER CHECK (rating BETWEEN 1 AND 5),
-    comment TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
-    CONSTRAINT fk_review_order
-        FOREIGN KEY (order_id)
-        REFERENCES orders(id)
-        ON DELETE CASCADE,
-
-    CONSTRAINT fk_review_user
-        FOREIGN KEY (reviewer_id)
-        REFERENCES users(id),
-
-    CONSTRAINT fk_review_product
-        FOREIGN KEY (product_id)
-        REFERENCES product(id),
-
-    CONSTRAINT fk_review_seller
-        FOREIGN KEY (seller_id)
-        REFERENCES users(id)
-);
-

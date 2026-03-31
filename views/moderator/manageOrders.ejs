@@ -1,0 +1,81 @@
+<%- include('../partials/htmlHead.ejs', {pageCss: "/styles/admin/manageOrders.css"}) %>  
+
+<body>
+    <div class="top-bar">
+        <%- include('../partials/topBar.ejs') %>
+    </div>
+
+    <div class="side-bar">
+        <%- include('../partials/moderatorSidebar.ejs') %>
+    </div>
+
+    <div class="main-content">    
+        <div class="order-section">
+
+            <div class="order-header">
+                <h2>Order Listing</h2>
+            </div>
+
+            <% if (orderList.length === 0) { %>
+                    <p class="unavailable">No Orders placed yet.</p>
+            <% }  else { %>
+                <table class="orders-table">
+
+                    <thead>
+                        <tr>
+                            <th>Buyer</th>
+                            <th>Seller</th>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Total Amount</th>
+                            <th>Order Status</th>
+                            <th>Payment Status</th>
+                            <th>Order Details</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+
+                    <% orderList.forEach(element => { %>
+
+                        <tr>
+                            <td><%= element.buyer %></td>
+                            <td><%= element.seller %></td>
+                            <td><%= element.product %></td>
+                            <td><%= element.quantity %></td>
+                            <td><%= element.total_amount %></td>
+                            <td><%= element.order_status %></td>
+                            <td><%= element.payment_status || "Uninitiated" %></td>
+                            <td>
+                                <a href="/moderator/orders/<%= element.order_id %>">More Details</a>
+                            </td>
+                            <td>
+                                <% if (element.order_status === 'PLACED') { %>
+                                    <form method="POST" action="/moderator/orders/<%= element.order_id %>/status/1">
+                                        <button class="btn-confirm" type="submit">Confirm</button>
+                                    </form>
+                                <% }if(element.order_status === 'PLACED' || element.order_status === 'CONFIRMED') { %>
+                                    <form method="POST" action="/moderator/orders/<%= element.order_id %>/status/2">
+                                        <button class="btn-cancel" type="submit">Cancel</button>
+                                    </form>
+                                <% }if(element.order_status === 'COMPLETED' || element.order_status === 'CANCELLED') { %>
+                                    <p>Unavailable</p>
+                                <% } %>
+                            </td>
+                        </tr>
+
+                    <% }) %>
+                    </tbody>
+                </table>
+
+            <% } %>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <%- include('../partials/footer.ejs') %>
+    </div>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<%- include('../partials/htmlHead.ejs', {pageCss: "/styles/admin/manageProducts.css"}) %>  
+
+
+<body>
+    <div class="top-bar">
+        <%- include('../partials/topBar.ejs') %>
+    </div>
+
+    <div class="side-bar">
+        <%- include('../partials/moderatorSidebar.ejs') %>
+    </div>
+
+    <div class="main-content">    
+        <div class="product-section">
+
+            <div class="section-header">
+                <h2>Product Listing</h2>
+            </div>
+
+            <% if (productList.length === 0) { %>
+                    <p class="unavailable">No Product available.</p>
+            <% }  else { %>
+                <table class="products-table">
+
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Price</th>
+                            <th>Qty Available</th>
+                            <th>Seller</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Moderator</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+
+                    <% productList.forEach(element => { %>
+
+                        <tr>
+                            <td title='<%= element.description %>'><%= element.title %></td>
+                            <td>₹ <%= element.price %></td>
+                            <td><%= element.quantity_available %></td>
+                            <td><%= element.seller %></td>
+                            <td><%= element.category %></td>
+                            <td><%= element.status %></td>
+                            <td><%= element.moderator %></td>
+                            <td>
+                                <% if (element.status === 'PENDING') { %>
+                                    <form method="POST" action="/moderator/products/<%= element.id %>/status/1">
+                                        <button type="submit">Approve</button>
+                                    </form>
+                                <% } else if(element.status === 'APPROVED') { %>
+                                    <form method="POST" action="/moderator/products/<%= element.id %>/status/2">
+                                        <button type="submit">Remove</button>
+                                    </form>
+                                <% } else { %>
+                                    <p>Unavailable</p>
+                                <% } %>
+                            </td>
+                        </tr>
+
+                    <% }) %>
+                    </tbody>
+                </table>
+
+            <% } %>
+
+        </div>
+    </div>
+
+    <div class="footer">
+        <%- include('../partials/footer.ejs') %>
+    </div>
+</body>
+</html>
