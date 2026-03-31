@@ -63,7 +63,8 @@ CREATE TABLE orders (
     quantity INTEGER NOT NULL CHECK (quantity > 0),
     price_at_purchase NUMERIC(10,2) NOT NULL CHECK (price_at_purchase >= 0),
     total_amount NUMERIC(10,2) NOT NULL CHECK (total_amount >= 0),
-    status VARCHAR(20) CHECK (status IN ('PLACED', 'CONFIRMED', 'SHIPPED', 'COMPLETED', 'CANCELLED')),
+    status VARCHAR(20) DEFAULT 'PLACED'
+        CHECK (status IN ('PLACED', 'CONFIRMED', 'COMPLETED', 'CANCELLED')),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
     FOREIGN KEY (buyer_id) REFERENCES users(id),
@@ -75,12 +76,9 @@ CREATE TABLE orders (
 CREATE TABLE payment (
     id SERIAL PRIMARY KEY,
     order_id INTEGER NOT NULL UNIQUE,
-    payment_method VARCHAR(30),
-    payment_status VARCHAR(20) CHECK (
-        payment_status IN ('PENDING', 'SUCCESS', 'FAILED', 'REFUNDED')
-    ),
-    transaction_reference VARCHAR(100),
-    paid_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    payment_status VARCHAR(20) DEFAULT 'PENDING'
+        CHECK (payment_status IN ('PENDING', 'SUCCESS', 'FAILED', 'REFUNDED')),
+    paid_at TIMESTAMP ,
 
     CONSTRAINT fk_payment_order
         FOREIGN KEY (order_id)

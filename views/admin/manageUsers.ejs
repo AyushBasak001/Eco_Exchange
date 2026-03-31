@@ -28,6 +28,7 @@
                             <th>Username</th>
                             <th>Role</th>
                             <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     
@@ -39,9 +40,9 @@
                             <td><%= element.id %></td>
                             <td><%= element.username %></td>
                             <td><%= element.role %></td>
+                            <td><%= element.is_active ? 'Active' : 'Deactive' %></td>
                             <td>
                                 <form method="POST" action="/admin/users/<%= element.id %>/status">
-                                    <label class="value"><%= element.is_active ? 'Active' : 'Deactive' %></label>
                                     <button type="submit"><%= element.is_active ? 'Deactivate' : 'Activate' %></button>
                                 </form>
                             </td>

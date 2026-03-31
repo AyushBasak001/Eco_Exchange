@@ -1,0 +1,26 @@
+<%- include('../partials/htmlHead.ejs', {pageCss: "/styles/user/paymentPage.css"}) %>  
+
+<body>
+    <div class="top-bar">
+        <%- include('../partials/topBar.ejs') %>
+    </div>
+
+    <div class="side-bar">
+        <%- include('../partials/userSidebar.ejs') %>
+    </div>
+
+    <div class="main-content">
+        <div class="payment-container">
+            <p><span class="label">Total amount :</span> <span class="value"><%= order.total_amount %></span></p>
+            <img src="/styles/images/myQR.png" alt="Payment QR code">
+            <form method="POST" action="/user/orders/<%= order.id %>/complete">
+                <button class="cancel-btn" type="submit">Done</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="footer">
+        <%- include('../partials/footer.ejs') %>
+    </div>
+</body>
+</html>

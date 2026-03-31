@@ -24,13 +24,13 @@
 
                     <thead>
                         <tr>
-                            <th>Order ID</th>
                             <th>Title</th>
                             <th>Category</th>
                             <th>Quantity</th>
                             <th>Total Amount</th>
                             <th>Status</th>
                             <th>Seller</th>
+                            <th>Order Details</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -40,7 +40,6 @@
                     <% bought.forEach(element => { %>
 
                         <tr>
-                            <td><%= element.order_id %></td>
                             <td><%= element.title %></td>
                             <td><%= element.category_name %></td>
                             <td><%= element.quantity %></td>
@@ -48,16 +47,17 @@
                             <td><%= element.status %></td>
                             <td><%= element.username %></td>
                             <td>
-                                <% if(element.status !== 'CANCELLED' && element.status !== 'COMPLETED'){ %>
-
-                                <form method="POST" action="/user/order/<%= element.order_id %>/1/cancel">
-                                    <button class="cancel-btn" type="submit">Cancel Order</button>
+                                <a href="/user/orders/<%= element.order_id %>">More Details</a>
+                            </td>
+                            <td>
+                                <% if(element.status === 'CONFIRMED'){ %>   
+                                    <a class="btn-pay" href="/user/orders/<%= element.order_id %>/pay">Pay now</a>
+                                <% } if(element.status === 'PLACED' || element.status === 'CONFIRMED'){ %>
+                                <form method="POST" action="/user/orders/<%= element.order_id %>/0/cancel">
+                                    <button class="btn-cancel" type="submit">Cancel</button>
                                 </form>
-
-                                <% } else { %>
-
-                                <p>No Action available.</p>
-
+                                <% }if(element.status === 'COMPLETED' || element.status === 'CANCELLED') { %>
+                                    <p>Unavailable</p>
                                 <% } %>
                             </td>
                         </tr>
@@ -84,13 +84,13 @@
 
                     <thead>
                         <tr>
-                            <th>Order ID</th>
                             <th>Title</th>
                             <th>Category</th>
                             <th>Quantity</th>
                             <th>Total Amount</th>
                             <th>Status</th>
                             <th>Buyer</th>
+                            <th>Order Details</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -100,7 +100,6 @@
                     <% sold.forEach(element => { %>
 
                         <tr>
-                            <td><%= element.order_id %></td>
                             <td><%= element.title %></td>
                             <td><%= element.category_name %></td>
                             <td><%= element.quantity %></td>
@@ -108,16 +107,15 @@
                             <td><%= element.status %></td>
                             <td><%= element.username %></td>
                             <td>
-                                <% if(element.status !== 'CANCELLED' && element.status !== 'COMPLETED'){ %>
-
-                                <form method="POST" action="/user/order/<%= element.order_id %>/0/cancel">
-                                    <button class="cancel-btn" type="submit">Cancel Order</button>
+                                <a href="/user/orders/<%= element.order_id %>">More Details</a>
+                            </td>
+                            <td>
+                                <% if(element.status === 'PLACED' || element.status === 'CONFIRMED'){ %>
+                                <form method="POST" action="/user/orders/<%= element.order_id %>/0/cancel">
+                                    <button class="cancel-btn" type="submit">Cancel</button>
                                 </form>
-
-                                <% } else { %>
-
-                                <p>No Action available.</p>
-
+                                <% }if(element.status === 'COMPLETED' || element.status === 'CANCELLED') { %>
+                                    <p>Unavailable</p>
                                 <% } %>
                             </td>
                         </tr>

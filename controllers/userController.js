@@ -1,4 +1,5 @@
 import { db } from '../utils/db.js';
+import { cancelOrderHelper } from '../utils/controllerHelpers.js';
 
 export const renderMarketplace = async (req, res) => {
   try {
@@ -134,7 +135,7 @@ export const renderUserProfile = async (req, res) => {
         const userId = req.user.id;
 
         const { rows: userRows } = await db.query(
-            "SELECT id, username, role FROM users WHERE id = $1",
+            "SELECT id, username, role, is_active FROM users WHERE id = $1",
             [userId]
         );
 
@@ -152,6 +153,112 @@ export const renderUserProfile = async (req, res) => {
         return res.status(500).send("Failed to load profile");
     }
 }
+
+export const showOrderDetails = async (req, res) => {
+    const client = await db.connect();
+    try {
+        const orderId = req.params.orderId;
+
+        if (!orderId || isNaN(orderId)) {
+            client.release();
+            return res.status(400).send("Invalid order ID");
+        }
+
+        // ------------------------------
+        // BEGIN TRANSACTION
+        // ------------------------------
+        await client.query("BEGIN");
+
+        // 1) ORDER ROW
+        const orderQuery = `SELECT * FROM orders WHERE id = $1`;
+        const { rows: orderRows } = await client.query(orderQuery, [orderId]);
+        if (orderRows.length === 0) {
+            await client.query("ROLLBACK");
+            client.release();
+            return res.status(404).send("Order not found");
+        }
+        const order = orderRows[0];
+
+        const { rows: buyerRows } = await client.query(
+            `SELECT u.username, u.role, u.is_active, a.line1, a.city, a.state, a.pincode, a.phone FROM users u LEFT JOIN address a ON u.id = a.user_id WHERE u.id = $1`, 
+            [order.buyer_id]
+        );
+
+        // 3) SELLER ROW (User + Address)
+        const { rows: sellerRows } = await client.query(
+            `SELECT u.username, u.role, u.is_active, a.line1, a.city, a.state, a.pincode, a.phone FROM users u LEFT JOIN address a ON u.id = a.user_id WHERE u.id = $1`,
+            [order.seller_id]
+        );
+
+        // 4) PRODUCT ROW
+        const { rows: productRows } = await client.query(
+            `SELECT p.title, p.description, c.name AS category, p.price, p.quantity_available, p.status, m.username AS moderator FROM product p  JOIN category c ON p.category_id=c.id LEFT JOIN users m ON p.moderator=m.id WHERE p.id = $1`,
+            [order.product_id]
+        );
+
+        // 5) PAYMENT ROW (might not exist)
+        const { rows: paymentRows } = await client.query(
+            `SELECT payment_status, paid_at FROM payment WHERE order_id = $1`,
+            [orderId]
+        );
+
+        // ------------------------------
+        // COMMIT TRANSACTION
+        // ------------------------------
+        await client.query("COMMIT");
+        client.release();
+
+        // Render EJS page
+        return res.status(200).render("user/userOrderDetail.ejs", {
+            buyer : buyerRows[0],
+            seller : sellerRows[0],
+            product : productRows[0],
+            payment : paymentRows[0] || {}
+        });
+
+    } catch (err) {
+        console.error("GET /user/orders/:orderId error:", err.message);
+        await client.query("ROLLBACK");
+        client.release();
+        return res.status(500).send("Internal server error");
+    }
+};
+
+export const showPaymentPage = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const orderId = req.params.orderId;
+
+        // Fetch order
+        const { rows } = await db.query(`
+            SELECT id, buyer_id, status, total_amount
+            FROM orders
+            WHERE id = $1
+        `, [orderId]);
+
+        if (rows.length === 0) {
+            return res.status(404).send("Order not found");
+        }
+
+        const order = rows[0];
+
+        // Authorization
+        if (order.buyer_id !== userId)
+        {
+            return res.status(403).send("Not authorized");
+        }
+        if (order.status !== 'CONFIRMED')
+        {
+            return res.status(403).send("Order not confirmed");
+        }
+
+        return res.status(200).render("user/paymentPage.ejs", { order });
+
+    } catch (err) {
+        console.error("GET /user/paymentPage error:", err.message);
+        return res.status(500).send("Failed to load Payment Page");
+    }
+};
 
 export const editUserAddress = async (req, res) => {
     try {
@@ -323,7 +430,8 @@ export const relistProduct = async (req, res) => {
 
         await db.query(`
             UPDATE product
-            SET status = 'PENDING'
+            SET status = 'PENDING',
+                moderator = null
             WHERE id = $1
         `, [productId]);
 
@@ -366,9 +474,9 @@ export const placeOrder = async (req, res) => {
 
         // Inserting into order table
         await db.query(
-            `INSERT INTO orders (buyer_id, seller_id, product_id, quantity, price_at_purchase, status, total_amount)
-             VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-            [buyerId, product.seller_id, productId, quantity, product.price, 'PLACED', amount]
+            `INSERT INTO orders (buyer_id, seller_id, product_id, quantity, price_at_purchase, total_amount)
+             VALUES ($1, $2, $3, $4, $5, $6)`,
+            [buyerId, product.seller_id, productId, quantity, product.price, amount]
         );
 
         return res.redirect("/user/orders");
@@ -405,21 +513,99 @@ export const cancelOrder = async (req, res) => {
             return res.status(403).send("Not authorized");
         }
 
-        // Idempotent remove
-        if (order.status === 'CANCELLED' || order.status === 'COMPLETED') {
-            return res.redirect("/user/orders");
-        }
-
-        await db.query(`
-            UPDATE orders
-            SET status = 'CANCELLED'
-            WHERE id = $1
-        `, [orderId]);
+        await cancelOrderHelper(orderId);
 
         return res.redirect("/user/orders");
 
     } catch (err) {
         console.error("Cancel order error:", err.message);
         res.status(500).send("Failed to cancel order");
+    }
+};
+
+export const completeOrder = async (req, res) => {
+    const client = await db.connect();
+
+    try {
+        const userId = req.user.id;
+        const orderId = req.params.orderId;
+
+        // =============================
+        // 1) FETCH ORDER
+        // =============================
+        const { rows } = await client.query(`
+            SELECT id, buyer_id, status
+            FROM orders
+            WHERE id = $1
+        `, [orderId]);
+
+        if (rows.length === 0) {
+            client.release();
+            return res.status(404).send("Order not found");
+        }
+
+        const order = rows[0];
+
+        // =============================
+        // 2) AUTH CHECK
+        // =============================
+        if (order.buyer_id !== userId) {
+            client.release();
+            return res.status(403).send("Not authorized");
+        }
+
+        if (order.status !== "CONFIRMED") {
+            client.release();
+            return res.status(400).send("Order not confirmed");
+        }
+
+        // =============================
+        // 3) BEGIN TRANSACTION
+        // =============================
+        await client.query("BEGIN");
+
+        // =============================
+        // 4) ENSURE PAYMENT ROW EXISTS
+        // =============================
+        await client.query(`
+            INSERT INTO payment (order_id)
+            VALUES ($1)
+            ON CONFLICT (order_id) DO NOTHING
+        `, [orderId]);
+
+        // =============================
+        // 5) UPDATE PAYMENT → SUCCESS
+        // =============================
+        await client.query(`
+            UPDATE payment
+            SET payment_status = 'SUCCESS',
+                paid_at = NOW()
+            WHERE order_id = $1
+        `, [orderId]);
+
+        // =============================
+        // 6) UPDATE ORDER → COMPLETED
+        // =============================
+        await client.query(`
+            UPDATE orders
+            SET status = 'COMPLETED'
+            WHERE id = $1
+        `, [orderId]);
+
+        // =============================
+        // 7) COMMIT TRANSACTION
+        // =============================
+        await client.query("COMMIT");
+        client.release();
+
+        return res.redirect("/user/orders");
+
+    } catch (err) {
+        console.error("Complete order error:", err.message);
+
+        try { await client.query("ROLLBACK"); } catch (_) {}
+
+        client.release();
+        res.status(500).send("Failed to complete order");
     }
 };

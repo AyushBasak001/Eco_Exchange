@@ -1,0 +1,56 @@
+<div class="order-details-header">
+    <h2>Order Details</h2>
+</div>
+
+<div class="order-details-container">
+
+    <div class="order-details-element buyer-details">
+        <p class="title">Buyer Information</p>
+        <p><span class="label">Username :</span> <span class="value"><%= buyer.username %></span></p>
+        <p><span class="label">Role :</span> <span class="value"><%= buyer.role %></span></p>
+        <p><span class="label">Status :</span> <span class="value"><%= buyer.is_active ? 'Active' : 'Deactive' %></span></p>
+
+        <p class="title">Buyer Address</p>
+        <p><span class="label">Line 1 :</span> <span class="value"><%= buyer.line1 %></span></p>
+        <p><span class="label">City :</span> <span class="value"><%= buyer.city %></span></p>
+        <p><span class="label">State :</span> <span class="value"><%= buyer.state%></span></p>
+        <p><span class="label">Pincode :</span> <span class="value"><%= buyer.pincode %></span></p>
+        <p><span class="label">Phone :</span> <span class="value"><%= buyer.phone %></span></p>
+    </div>
+
+    <div class="order-details-element seller-details">
+        <p class="title">Seller Information</p>
+        <p><span class="label">Username :</span> <span class="value"><%= seller.username %></span></p>
+        <p><span class="label">Role :</span> <span class="value"><%= seller.role %></span></p>
+        <p><span class="label">Status :</span> <span class="value"><%= seller.is_active ? 'Active' : 'Deactive' %></span></p>
+
+        <p class="title">Seller Address</p>
+        <p><span class="label">Line 1 :</span> <span class="value"><%= seller.line1 %></span></p>
+        <p><span class="label">City :</span> <span class="value"><%= seller.city %></span></p>
+        <p><span class="label">State :</span> <span class="value"><%= seller.state%></span></p>
+        <p><span class="label">Pincode :</span> <span class="value"><%= seller.pincode %></span></p>
+        <p><span class="label">Phone :</span> <span class="value"><%= seller.phone %></span></p>
+    </div>
+
+    <div class="order-details-element product-details">
+        <p class="title">Product Details</p>
+        <p><span class="label">Title :</span> <span class="value"><%= product.title %></span></p>
+        <p><span class="label">Description :</span> <span class="value"><%= product.description %></span></p>
+        <p><span class="label">Category :</span> <span class="value"><%= product.category %></span></p>
+        <p><span class="label">Price :</span> <span class="value"><%= product.price%></span></p>
+        <p><span class="label">Quantity Available :</span> <span class="value"><%= product.quantity_available %></span></p>
+        <p><span class="label">Status :</span> <span class="value"><%= product.status %></span></p>
+        <p><span class="label">Moderator :</span> <span class="value"><%= product.moderator %></span></p>
+    </div>
+
+    <div class="order-details-element payment-details">
+        <p class="title">Payment Details</p>
+        <p><span class="label">Payment Status :</span> <span class="value"><%= payment.payment_status  || "Uninitiated" %></span></p>
+        <% if (Object.keys(payment).length !== 0) { %>
+            <p><span class="label">Paid At :</span> <span class="value"><%= payment.paid_at  || "Not paid" %></span></p>
+        <% } %>
+    </div>
+
+    
+
+</div>

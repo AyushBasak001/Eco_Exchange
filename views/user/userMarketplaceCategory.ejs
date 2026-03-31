@@ -43,7 +43,7 @@
                             <td>₹ <%= element.price %></td>
 
                             <td>
-                                <form method="POST" action="/user/order/<%= element.id %>/placeOrder">
+                                <form method="POST" action="/user/orders/<%= element.id %>/placeOrder">
                                     <input type="number" min="0" max="<%=  element.quantity_available %>" name="quantity" required>
                                     <button type="submit">Place Order</button>
                                 </form>
